@@ -2153,8 +2153,11 @@ const CtbcForm = () => {
         display: "flex",
         flexDirection: "column",
       }}
+      className="bg-slate-50 container mx-auto"
     >
-      <h1 className="text-2xl text-center">CTBC APPLICATION FORM</h1>
+      <h1 className="text-3xl sm:text-4xl text-center my-1">
+        CTBC APPLICATION FORM
+      </h1>
       {/* <div className="flex flex-row">
         <ul className="steps">
           {stepsdata.map((step) => {
@@ -2204,7 +2207,7 @@ const CtbcForm = () => {
       </div> */}
 
       <form>
-        <Grid container>
+        <Grid container className="flex items-center justify-center p-1 ">
           <Grid item xs={12} md={6}>
             <TextField
               label="Derised Loan Amount"
@@ -2214,6 +2217,7 @@ const CtbcForm = () => {
               required
               sx={{ display: "block" }}
               fullWidth
+              className="text-black sm:text-x"
             />
           </Grid>
 
@@ -2229,8 +2233,11 @@ const CtbcForm = () => {
                 padding: { xs: 2, md: 1 },
               }}
             >
-              <FormLabel id="demo-row-radio-buttons-group-label">
-                Desired Loan Term
+              <FormLabel
+                id="demo-row-radio-buttons-group-label"
+                className="text-1xl"
+              >
+                Choose desire amount
               </FormLabel>
               <ButtonGroup
                 variant="contained"
@@ -2287,8 +2294,13 @@ const CtbcForm = () => {
           </Grid>
         </Grid>
 
+        <div className="divider text-black sm:text-xl"></div>
+
         <FormControl required>
-          <FormLabel id="demo-row-radio-buttons-group-label">
+          <FormLabel
+            id="demo-row-radio-buttons-group-label"
+            className="text-black sm:text-x"
+          >
             Desired Loan Term
           </FormLabel>
           <RadioGroup
@@ -2322,8 +2334,12 @@ const CtbcForm = () => {
           </RadioGroup>
         </FormControl>
 
-        <FormControl sx={{ display: "block", justifyContent: "start " }}>
-          <FormLabel id="demo-row-radio-buttons-group-label">
+        <div className="divider text-red-500 sm:text-xl"></div>
+        <FormControl sx={{ display: "block", justifyContent: "space-between" }}>
+          <FormLabel
+            id="demo-row-radio-buttons-group-label"
+            className="text-black sm:text-x"
+          >
             Loan Application Type
           </FormLabel>
           <RadioGroup
@@ -2332,6 +2348,11 @@ const CtbcForm = () => {
             name="row-radio-buttons-group"
             value={loanType}
             onChange={(e) => setLoanType(e.target.value)}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
           >
             <FormControlLabel
               value="new-application"
@@ -2357,6 +2378,7 @@ const CtbcForm = () => {
           </RadioGroup>
         </FormControl>
 
+        <div className="divider text-red-500 sm:text-xl"></div>
         <FormControl required sx={{ display: "block" }}>
           <FormLabel id="demo-row-radio-buttons-group-label">
             Purpose of Loan
@@ -2420,6 +2442,7 @@ const CtbcForm = () => {
           </RadioGroup>
         </FormControl>
 
+        <div className="divider text-red-500 sm:text-xl"></div>
         <FormControl required sx={{ display: "block" }}>
           <FormLabel id="demo-row-radio-buttons-group-label">
             Source of Loan Application
@@ -2493,6 +2516,7 @@ const CtbcForm = () => {
           </RadioGroup>
         </FormControl>
 
+        <div className="divider text-red-500 sm:text-xl"></div>
         <FormControl required sx={{ display: "block" }}>
           <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
           <RadioGroup
@@ -2512,6 +2536,7 @@ const CtbcForm = () => {
           </RadioGroup>
         </FormControl>
 
+        <div className="divider text-red-500 sm:text-xl"></div>
         <FormControl required sx={{ display: "block" }}>
           <FormLabel id="demo-row-radio-buttons-group-label">Title</FormLabel>
           <RadioGroup
@@ -2527,6 +2552,7 @@ const CtbcForm = () => {
           </RadioGroup>
         </FormControl>
 
+        <div className="divider text-red-500 sm:text-xl"></div>
         <Stack flexDirection={{ md: "row", xs: "column" }} my={2}>
           <TextField
             type="text"
@@ -2548,6 +2574,7 @@ const CtbcForm = () => {
           />
         </Stack>
 
+        <div className="divider text-red-500 sm:text-xl"></div>
         <Stack flexDirection={{ md: "row", xs: "column" }} my={2}>
           <TextField
             type="text"
@@ -2571,6 +2598,7 @@ const CtbcForm = () => {
           />
         </Stack>
 
+        <div className="divider text-red-500 sm:text-xl"></div>
         <FormControl required sx={{ display: "block" }}>
           <FormLabel id="demo-row-radio-buttons-group-label">
             Marital Status
@@ -2605,7 +2633,7 @@ const CtbcForm = () => {
           </RadioGroup>
         </FormControl>
 
-        <br />
+        <div className="divider text-red-500 sm:text-xl"></div>
         <TextField
           type="text"
           label="Spouse Name"
@@ -2630,6 +2658,7 @@ const CtbcForm = () => {
           </RadioGroup>
         </FormControl>
 
+        <div className="divider text-red-500 sm:text-xl"></div>
         <Stack flexDirection={{ md: "row", xs: "column" }} my={2}>
           <TextField
             type="text"
@@ -2667,6 +2696,7 @@ const CtbcForm = () => {
           />
         </Stack>
 
+        <div className="divider text-red-500 sm:text-xl"></div>
         <FormControl required sx={{ display: "block" }}>
           <FormLabel id="demo-row-radio-buttons-group-label">
             Philippine Resident?
@@ -2710,6 +2740,7 @@ const CtbcForm = () => {
           />
         </Stack>
 
+        <div className="divider text-red-500 sm:text-xl"></div>
         <FormControl required sx={{ display: "block" }}>
           <FormLabel id="demo-row-radio-buttons-group-label">
             Education Attainment
@@ -2744,6 +2775,7 @@ const CtbcForm = () => {
           </RadioGroup>
         </FormControl>
 
+        <div className="divider text-red-500 sm:text-xl"></div>
         <FormControl required sx={{ display: "block" }}>
           <FormLabel id="demo-row-radio-buttons-group-label">
             Residence Type
@@ -2814,6 +2846,7 @@ const CtbcForm = () => {
           </RadioGroup>
         </FormControl>
 
+        <div className="divider text-red-500 sm:text-xl"></div>
         <TextField
           variant="outlined"
           label="Current Home Address"
@@ -2823,6 +2856,7 @@ const CtbcForm = () => {
           sx={{ marginY: 1 }}
         />
 
+        <div className="divider text-red-500 sm:text-xl"></div>
         <Stack
           flexDirection={{ xs: "column", md: "row" }}
           alignItems={"start"}
@@ -2848,6 +2882,7 @@ const CtbcForm = () => {
           </Stack>
         </Stack>
 
+        <div className="divider text-red-500 sm:text-xl"></div>
         <Stack
           flexDirection={{ xs: "column", md: "row" }}
           alignItems={"start"}
@@ -2917,6 +2952,7 @@ const CtbcForm = () => {
           sx={{ mt: 2 }}
         />
 
+        <div className="divider text-red-500 sm:text-xl"></div>
         <Stack
           flexDirection={{ xs: "column", md: "row" }}
           alignItems={"start"}
@@ -2943,6 +2979,7 @@ const CtbcForm = () => {
           </Stack>
         </Stack>
 
+        <div className="divider text-red-500 sm:text-xl"></div>
         <Stack
           flexDirection={{ xs: "column", md: "row" }}
           alignItems={"start"}
@@ -2993,6 +3030,8 @@ const CtbcForm = () => {
           fullWidth
           sx={{ mt: 1 }}
         />
+
+        <div className="divider text-red-500 sm:text-xl"></div>
         <Stack
           flexDirection={{ xs: "column", md: "row" }}
           alignItems={"start"}
@@ -3034,6 +3073,9 @@ const CtbcForm = () => {
         />
 
         {/* Provincial Contact */}
+
+        <div className="divider text-red-500 sm:text-xl"></div>
+
         <Stack
           flexDirection={{ xs: "column", md: "row" }}
           alignItems={"start"}
@@ -3077,9 +3119,10 @@ const CtbcForm = () => {
           </Stack>
         </Stack>
 
+        <div className="divider text-red-500 sm:text-xl"></div>
         <Card sx={{ mt: 2 }}>
           <Typography variant="h6">Work And Finances</Typography>
-          <FormControl required sx={{ display: "block" }}>
+          <FormControl required sx={{ display: "block", my: { xs: 2, md: 0 } }}>
             <FormLabel id="demo-row-radio-buttons-group-label">
               Source of Income
             </FormLabel>
@@ -3103,7 +3146,7 @@ const CtbcForm = () => {
             </RadioGroup>
           </FormControl>
 
-          <FormControl required sx={{ display: "block" }}>
+          <FormControl required sx={{ display: "block", my: { xs: 2, md: 0 } }}>
             <FormLabel id="demo-row-radio-buttons-group-label">
               Permanent?
             </FormLabel>
@@ -3119,7 +3162,7 @@ const CtbcForm = () => {
             </RadioGroup>
           </FormControl>
 
-          <FormControl required sx={{ display: "block" }}>
+          <FormControl required sx={{ display: "block", my: { xs: 2, md: 0 } }}>
             <FormLabel id="demo-row-radio-buttons-group-label">
               Part Owner
             </FormLabel>
@@ -3142,7 +3185,7 @@ const CtbcForm = () => {
             </RadioGroup>
           </FormControl>
 
-          <FormControl required sx={{ display: "block" }}>
+          <FormControl required sx={{ display: "block", my: { xs: 2, md: 0 } }}>
             <FormLabel id="demo-row-radio-buttons-group-label">
               Company Type
             </FormLabel>
