@@ -28,7 +28,7 @@ const checkIcon = "/check.png";
 const CtbcForm = () => {
   //   Writing Configuration
   const style = {
-    color: rgb(0.1, 0.1, 0.1),
+    color: rgb(0.0, 0.0, 0.0),
     rotate: degrees(90),
   };
 
@@ -46,7 +46,7 @@ const CtbcForm = () => {
   const [agencyName, setAgencyName] = useState("");
   const [otherSource, setOtherSource] = useState("");
 
-  const [gender, setGender] = useState("male");
+  const [gender, setGender] = useState("");
 
   const [title, setTitle] = useState("");
 
@@ -483,7 +483,7 @@ const CtbcForm = () => {
         rotate: style.rotate,
         opacity: 0.9,
       });
-      firstPage.drawText(brachName, {
+      firstPage.drawText(brachName.toUpperCase(), {
         x: 260,
         y: 72,
         size: 6,
@@ -501,7 +501,7 @@ const CtbcForm = () => {
         rotate: style.rotate,
         opacity: 0.9,
       });
-      firstPage.drawText(agencyName, {
+      firstPage.drawText(agencyName.toUpperCase(), {
         x: 271,
         y: 72,
         size: 6,
@@ -626,30 +626,57 @@ const CtbcForm = () => {
     }
 
     // Full name
-    firstPage.drawText(firstName, {
-      x: 330,
-      y: 20,
-      size: 8,
-      font: helveticaFont,
-      color: style.color,
-      rotate: style.rotate,
-    });
-    firstPage.drawText(middleName, {
-      x: 330,
-      y: 80,
-      size: 8,
-      font: helveticaFont,
-      color: style.color,
-      rotate: style.rotate,
-    });
-    firstPage.drawText(lastName, {
-      x: 330,
-      y: 130,
-      size: 8,
-      font: helveticaFont,
-      color: style.color,
-      rotate: style.rotate,
-    });
+    if (firstName.length > 10) {
+      firstPage.drawText(firstName.toUpperCase(), {
+        x: 330,
+        y: 11.5,
+        size: 7,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+      firstPage.drawText(middleName.toUpperCase(), {
+        x: 330,
+        y: 80,
+        size: 7,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+      firstPage.drawText(lastName.toUpperCase(), {
+        x: 330,
+        y: 135,
+        size: 7,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+    } else {
+      firstPage.drawText(firstName.toUpperCase(), {
+        x: 330,
+        y: 15,
+        size: 8,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+      firstPage.drawText(middleName.toUpperCase(), {
+        x: 330,
+        y: 80,
+        size: 8,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+      firstPage.drawText(lastName.toUpperCase(), {
+        x: 330,
+        y: 135,
+        size: 8,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+    }
 
     // Others Name or Alias
     firstPage.drawText(aliasName, {
@@ -664,22 +691,62 @@ const CtbcForm = () => {
     // Date of Birth
     firstPage.drawText(birthdate, {
       x: 383.8,
-      y: 24,
-      size: 6,
+      y: 18,
+      size: 8,
       font: helveticaFont,
       color: style.color,
       rotate: style.rotate,
     });
 
     // Birth Place
-    firstPage.drawText(placeOfBirth, {
-      x: 383.8,
-      y: 72,
-      size: 6,
-      font: helveticaFont,
-      color: style.color,
-      rotate: style.rotate,
-    });
+    if (placeOfBirth.length < 18) {
+      firstPage.drawText(placeOfBirth, {
+        x: 383.8,
+        y: 72,
+        size: 6,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+    } else {
+      // Find the index of the first space character
+      const firstSpaceIndex = placeOfBirth.indexOf(" ");
+
+      if (firstSpaceIndex !== -1) {
+        // Find the index of the second space character starting from after the first space
+        const secondSpaceIndex = placeOfBirth.indexOf(" ", firstSpaceIndex + 1);
+
+        if (secondSpaceIndex !== -1) {
+          console.log("Index of the second space character:", secondSpaceIndex);
+
+          const firstline = placeOfBirth.slice(0, secondSpaceIndex);
+          const lastline = placeOfBirth.slice(
+            secondSpaceIndex,
+            placeOfBirth.length
+          );
+          firstPage.drawText(firstline.toLocaleUpperCase(), {
+            x: 379.8,
+            y: 70,
+            size: 5,
+            font: helveticaFont,
+            color: style.color,
+            rotate: style.rotate,
+          });
+          firstPage.drawText(lastline.toUpperCase(), {
+            x: 388.8,
+            y: 68.5,
+            size: 5,
+            font: helveticaFont,
+            color: style.color,
+            rotate: style.rotate,
+          });
+        } else {
+          console.log("Second space not found in the text.");
+        }
+      } else {
+        console.log("First space not found in the text.");
+      }
+    }
 
     // Marital Status
     if (maritalStatus == "single") {
@@ -725,7 +792,7 @@ const CtbcForm = () => {
     }
 
     // Spouse name
-    firstPage.drawText(spouseName, {
+    firstPage.drawText(spouseName.toLocaleUpperCase(), {
       x: 410,
       y: 46,
       size: 6,
@@ -778,7 +845,7 @@ const CtbcForm = () => {
     });
 
     // Mothers Full Name
-    firstPage.drawText(mothersFirstname, {
+    firstPage.drawText(mothersFirstname.toLocaleUpperCase(), {
       x: 455,
       y: 20,
       size: 8,
@@ -786,7 +853,7 @@ const CtbcForm = () => {
       color: style.color,
       rotate: style.rotate,
     });
-    firstPage.drawText(mothersMiddleName, {
+    firstPage.drawText(mothersMiddleName.toLocaleUpperCase(), {
       x: 455,
       y: 85,
       size: 8,
@@ -794,7 +861,7 @@ const CtbcForm = () => {
       color: style.color,
       rotate: style.rotate,
     });
-    firstPage.drawText(mothersLastname, {
+    firstPage.drawText(mothersLastname.toLocaleUpperCase(), {
       x: 455,
       y: 140,
       size: 8,
@@ -1337,14 +1404,58 @@ const CtbcForm = () => {
     }
 
     // Employer or Business Name
-    firstPage.drawText(employerOrBusinessName, {
-      x: 160,
-      y: 520,
-      size: 6,
-      font: helveticaFont,
-      color: style.color,
-      rotate: style.rotate,
-    });
+    if (employerOrBusinessName.length < 18) {
+      firstPage.drawText(employerOrBusinessName.toUpperCase(), {
+        x: 160,
+        y: 515,
+        size: 7,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+    } else {
+      // Find the index of the first space character
+      const firstSpaceIndex = employerOrBusinessName.indexOf(" ");
+
+      if (firstSpaceIndex !== -1) {
+        // Find the index of the second space character starting from after the first space
+        const secondSpaceIndex = employerOrBusinessName.indexOf(
+          " ",
+          firstSpaceIndex + 1
+        );
+
+        if (secondSpaceIndex !== -1) {
+          console.log("Index of the second space character:", secondSpaceIndex);
+
+          const firstline = employerOrBusinessName.slice(0, secondSpaceIndex);
+          const lastline = employerOrBusinessName.slice(
+            secondSpaceIndex,
+            employerOrBusinessName.length
+          );
+          firstPage.drawText(firstline.toLocaleUpperCase(), {
+            x: 155,
+            y: 510,
+            size: 7,
+            font: helveticaFont,
+            color: style.color,
+            rotate: style.rotate,
+          });
+          firstPage.drawText(lastline.toUpperCase(), {
+            x: 165,
+            y: 508,
+            size: 7,
+            font: helveticaFont,
+            color: style.color,
+            rotate: style.rotate,
+          });
+        } else {
+          console.log("Second space not found in the text.");
+        }
+      } else {
+        console.log("First space not found in the text.");
+      }
+    }
+
     firstPage.drawText(natureOfBusiness, {
       x: 186.5,
       y: 415,
@@ -1446,14 +1557,72 @@ const CtbcForm = () => {
     }
 
     // Employer / Business Address
-    firstPage.drawText(employerOrBusinessAddress, {
-      x: 280,
-      y: 415,
-      size: 6,
-      font: helveticaFont,
-      color: style.color,
-      rotate: style.rotate,
-    });
+    if (employerOrBusinessAddress.length < 18) {
+      firstPage.drawText(employerOrBusinessAddress.toUpperCase(), {
+        x: 280,
+        y: 415,
+        size: 6,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+    } else {
+      // Find the index of the first space character
+      const firstSpaceIndex = employerOrBusinessAddress.indexOf(" ");
+
+      if (firstSpaceIndex !== -1) {
+        // Find the index of the second space character starting from after the first space
+        const secondSpaceIndex = employerOrBusinessAddress.indexOf(
+          " ",
+          firstSpaceIndex + 1
+        );
+
+        if (secondSpaceIndex !== -1) {
+          console.log("Index of the second space character:", secondSpaceIndex);
+
+          // Find the index of the third space character starting from after the second space
+          const thirdSpaceIndex = employerOrBusinessAddress.indexOf(
+            " ",
+            secondSpaceIndex + 1
+          );
+
+          if (thirdSpaceIndex !== -1) {
+            console.log("Index of the third space character:", thirdSpaceIndex);
+
+            const firstline = employerOrBusinessAddress.slice(
+              0,
+              thirdSpaceIndex
+            );
+            const lastline = employerOrBusinessAddress.slice(
+              thirdSpaceIndex,
+              employerOrBusinessAddress.length
+            );
+            firstPage.drawText(firstline.toUpperCase(), {
+              x: 280,
+              y: 415,
+              size: 7,
+              font: helveticaFont,
+              color: style.color,
+              rotate: style.rotate,
+            });
+            firstPage.drawText(lastline.toUpperCase(), {
+              x: 290,
+              y: 413,
+              size: 7,
+              font: helveticaFont,
+              color: style.color,
+              rotate: style.rotate,
+            });
+          } else {
+            console.log("Third space not found in the text.");
+          }
+        } else {
+          console.log("Second space not found in the text.");
+        }
+      } else {
+        console.log("First space not found in the text.");
+      }
+    }
 
     // Years and month at present company
     firstPage.drawText(yrsAtPresentCompany, {
@@ -1689,7 +1858,7 @@ const CtbcForm = () => {
     });
 
     // Bank References
-    firstPage.drawText(bankName, {
+    firstPage.drawText(bankName.toUpperCase(), {
       x: 188,
       y: 630,
       size: 6,
@@ -1697,15 +1866,60 @@ const CtbcForm = () => {
       color: style.color,
       rotate: style.rotate,
     });
-    firstPage.drawText(bankBranchName, {
-      x: 188,
-      y: 720,
-      size: 6,
-      font: helveticaFont,
-      color: style.color,
-      rotate: style.rotate,
-    });
-    firstPage.drawText(bankAccountType, {
+    // Here
+    if (bankBranchName.length < 12) {
+      firstPage.drawText(bankBranchName.toUpperCase(), {
+        x: 188,
+        y: 700,
+        size: 6,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+    } else {
+      // Find the index of the first space character
+      const firstSpaceIndex = bankBranchName.indexOf(" ");
+
+      if (firstSpaceIndex !== -1) {
+        // Find the index of the second space character starting from after the first space
+        const secondSpaceIndex = bankBranchName.indexOf(
+          " ",
+          firstSpaceIndex + 1
+        );
+
+        if (secondSpaceIndex !== -1) {
+          console.log("Index of the second space character:", secondSpaceIndex);
+
+          const firstline = bankBranchName.slice(0, secondSpaceIndex);
+          const lastline = bankBranchName.slice(
+            secondSpaceIndex,
+            bankBranchName.length
+          );
+          firstPage.drawText(firstline.toLocaleUpperCase(), {
+            x: 183,
+            y: 712,
+            size: 5,
+            font: helveticaFont,
+            color: style.color,
+            rotate: style.rotate,
+          });
+          firstPage.drawText(lastline.toUpperCase(), {
+            x: 188,
+            y: 711,
+            size: 5,
+            font: helveticaFont,
+            color: style.color,
+            rotate: style.rotate,
+          });
+        } else {
+          console.log("Second space not found in the text.");
+        }
+      } else {
+        console.log("First space not found in the text.");
+      }
+    }
+
+    firstPage.drawText(bankAccountType.toUpperCase(), {
       x: 230,
       y: 630,
       size: 6,
@@ -1876,6 +2090,62 @@ const CtbcForm = () => {
       "application/pdf"
     );
   };
+
+  const [stepsdata, setStepsdata] = useState([
+    { stepName: "Register", done: false, index: 0, activeform: true },
+    { stepName: "Form2", done: false, index: 1, activeform: false },
+    { stepName: "Form3", done: false, index: 2, activeform: false },
+    { stepName: "Form4", done: false, index: 3, activeform: false },
+    { stepName: "Form5", done: false, index: 4, activeform: false },
+    { stepName: "Form6", done: false, index: 5, activeform: false },
+    { stepName: "Form4", done: false, index: 6, activeform: false },
+    { stepName: "Form5", done: false, index: 7, activeform: false },
+    { stepName: "Form6", done: false, index: 8, activeform: false },
+  ]);
+
+  const updateStep = (index, isDone) => {
+    console.log(index, isDone);
+
+    // Create a new array with updated data
+    const updatedStepsdata = stepsdata.map((step) => {
+      if (step.index === index) {
+        return { ...step, activeform: isDone, done: true };
+      } else if (step.index === index + 1) {
+        return { ...step, activeform: true };
+      } else {
+        return { ...step, activeform: false };
+      }
+    });
+
+    // Update the state with the new array
+    setStepsdata(updatedStepsdata);
+    console.log(stepsdata);
+  };
+
+  const goToPreviousStep = (index, isDone) => {
+    console.log("go back", index);
+    if (index > 0) {
+      setTimeout(() => {
+        // Create a new array with updated data
+        const updatedStepsdata = stepsdata.map((step) => {
+          if (step.index === index) {
+            return { ...step, activeform: false };
+          } else if (step.index === index - 1) {
+            return { ...step, activeform: true, done: isDone }; // Set the previous step's done property
+          }
+          return step; // Keep the other steps unchanged
+        });
+
+        // Update the state with the new array
+        setStepsdata(updatedStepsdata);
+        console.log(stepsdata);
+      }, 100);
+    }
+  };
+
+  // useEffect(() => {
+  //   renderStep();
+  // }, [stepsdata]);
   return (
     <Card
       sx={{
@@ -1885,6 +2155,54 @@ const CtbcForm = () => {
       }}
     >
       <h1 className="text-2xl text-center">CTBC APPLICATION FORM</h1>
+      {/* <div className="flex flex-row">
+        <ul className="steps">
+          {stepsdata.map((step) => {
+            return (
+              <div key={step.index} className={`flex flex-col `}>
+                <div className={`step ${step.done ? "step-success" : ""}`}>
+                  {step.stepName}
+                </div>
+
+                <div
+                  className={`fade-animation ${
+                    step.activeform ? "" : "hidden"
+                  } card w-96 bg-base-100 shadow-lg ${
+                    step.activeform ? "pending" : "form-done"
+                  }`}
+                >
+                  <figure>
+                    <img
+                      src="/icon.png"
+                      alt="Shoes"
+                      style={{ width: "20px" }}
+                    />
+                  </figure>
+                  <div className="card-body">
+                    <h2 className="card-title">{step.stepName}</h2>
+
+                    <div className="card-actions justify-end">
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => goToPreviousStep(step.index, step.done)}
+                      >
+                        Back
+                      </button>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => updateStep(step.index, step.done)}
+                      >
+                        Buy Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </ul>
+      </div> */}
+
       <form>
         <Grid container>
           <Grid item xs={12} md={6}>
