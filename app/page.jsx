@@ -21,6 +21,8 @@ import {
 // import pdfFile from "/rotated.pdf?asset";
 // import checkIcon from "/check.png?asset";
 import download from "downloadjs";
+import LoanInfo from "./forms/LoanInfo";
+import PersonalInfo from "./forms/PersonalInfo";
 
 const pdfFile = "/rotated.pdf";
 const checkIcon = "/check.png";
@@ -2092,34 +2094,81 @@ const CtbcForm = () => {
   };
 
   const [stepsdata, setStepsdata] = useState([
-    { stepName: "Register", done: false, index: 0, activeform: true },
-    { stepName: "Form2", done: false, index: 1, activeform: false },
-    { stepName: "Form3", done: false, index: 2, activeform: false },
-    { stepName: "Form4", done: false, index: 3, activeform: false },
-    { stepName: "Form5", done: false, index: 4, activeform: false },
-    { stepName: "Form6", done: false, index: 5, activeform: false },
-    { stepName: "Form4", done: false, index: 6, activeform: false },
-    { stepName: "Form5", done: false, index: 7, activeform: false },
-    { stepName: "Form6", done: false, index: 8, activeform: false },
+    {
+      stepName: "Loan information",
+      done: false,
+      index: 0,
+      activeform: true,
+      formFields: (
+        <LoanInfo
+          sourceOfLoan={sourceOfLoan}
+          setSourceOfLoan={setSourceOfLoan}
+          isAgency={isAgency}
+          agencyName={agencyName}
+          setAgencyName={setAgencyName}
+          isBranch={isBranch}
+          brachName={brachName}
+          setBranchName={setBranchName}
+          isOthers={isOthers}
+          otherSource={otherSource}
+          setOtherSource={setOtherSource}
+        />
+      ),
+    },
+    {
+      stepName: "Personal Information",
+      done: false,
+      index: 1,
+      activeform: false,
+      formFields: <PersonalInfo />,
+    },
+    {
+      stepName: "Work And Finances",
+      done: false,
+      index: 2,
+      activeform: false,
+      formFields: (
+        <div>
+          <h1>Form 3 fields</h1>
+        </div>
+      ),
+    },
+
+    {
+      stepName: "References",
+      done: false,
+      index: 3,
+      activeform: false,
+      formFields: (
+        <div>
+          <h1>Form 5 fields</h1>
+        </div>
+      ),
+    },
   ]);
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   const updateStep = (index, isDone) => {
-    console.log(index, isDone);
+    console.log(index, isDone, stepsdata.length);
+    if (index == stepsdata.length - 1) return;
+    else {
+      // Create a new array with updated data
+      const updatedStepsdata = stepsdata.map((step) => {
+        if (step.index === index) {
+          return { ...step, activeform: isDone, done: true };
+        } else if (step.index === index + 1) {
+          return { ...step, activeform: true };
+        } else {
+          return { ...step, activeform: false };
+        }
+      });
 
-    // Create a new array with updated data
-    const updatedStepsdata = stepsdata.map((step) => {
-      if (step.index === index) {
-        return { ...step, activeform: isDone, done: true };
-      } else if (step.index === index + 1) {
-        return { ...step, activeform: true };
-      } else {
-        return { ...step, activeform: false };
-      }
-    });
-
-    // Update the state with the new array
-    setStepsdata(updatedStepsdata);
-    console.log(stepsdata);
+      // Update the state with the new array
+      setStepsdata(updatedStepsdata);
+      setCurrentIndex(currentIndex + 1);
+      console.log(stepsdata);
+    }
   };
 
   const goToPreviousStep = (index, isDone) => {
@@ -2139,13 +2188,10 @@ const CtbcForm = () => {
         // Update the state with the new array
         setStepsdata(updatedStepsdata);
         console.log(stepsdata);
+        setCurrentIndex(currentIndex - 1);
       }, 100);
     }
   };
-
-  // useEffect(() => {
-  //   renderStep();
-  // }, [stepsdata]);
   return (
     <Card
       sx={{
@@ -2155,449 +2201,52 @@ const CtbcForm = () => {
       }}
       className="bg-slate-50 container mx-auto"
     >
-      <h1 className="text-3xl sm:text-4xl text-center my-1">
-        CTBC APPLICATION FORM
-      </h1>
-      {/* <div className="flex flex-row">
+      <div className="flex flex-col w-auto">
+        <h1 className="text-3xl sm:text-4xl text-center my-1">
+          CTBC APPLICATION FORM
+        </h1>
         <ul className="steps">
           {stepsdata.map((step) => {
             return (
-              <div key={step.index} className={`flex flex-col `}>
-                <div className={`step ${step.done ? "step-success" : ""}`}>
-                  {step.stepName}
-                </div>
-
-                <div
-                  className={`fade-animation ${
-                    step.activeform ? "" : "hidden"
-                  } card w-96 bg-base-100 shadow-lg ${
-                    step.activeform ? "pending" : "form-done"
-                  }`}
-                >
-                  <figure>
-                    <img
-                      src="/icon.png"
-                      alt="Shoes"
-                      style={{ width: "20px" }}
-                    />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">{step.stepName}</h2>
-
-                    <div className="card-actions justify-end">
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => goToPreviousStep(step.index, step.done)}
-                      >
-                        Back
-                      </button>
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => updateStep(step.index, step.done)}
-                      >
-                        Buy Now
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <li
+                key={step.index}
+                className={`step ${
+                  step.done ? "step-success" : ""
+                } flex flex-col ${
+                  step.activeform ? "after:text-2xl underline" : ""
+                }`}
+              >
+                {step.stepName}
+              </li>
             );
           })}
         </ul>
-      </div> */}
+
+        <div className="card  bg-slate-200 text-neutral-content">
+          <div className="card-body items-center text-center">
+            <h2 className="card-title text-4xl text-black">
+              {stepsdata.filter((step) => step.activeform === true)[0].stepName}
+            </h2>
+            {stepsdata.filter((step) => step.activeform === true)[0].formFields}
+            <div className="card-actions justify-end">
+              <button
+                className="btn btn-ghost "
+                onClick={() => goToPreviousStep(currentIndex)}
+              >
+                Back
+              </button>
+              <button
+                className="btn  btn-info"
+                onClick={() => updateStep(currentIndex)}
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <form>
-        <Grid container className="flex items-center justify-center p-1 ">
-          <Grid item xs={12} md={6}>
-            <TextField
-              label="Derised Loan Amount"
-              type="number"
-              value={desiredAmount}
-              onChange={(e) => setDerisedAmount(e.target.value)}
-              required
-              sx={{ display: "block" }}
-              fullWidth
-              className="text-black sm:text-x"
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6}>
-            <FormControl
-              required
-              sx={{
-                display: { xs: "none", md: "flex" },
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                marginLeft: { xs: 0, md: 1 },
-                padding: { xs: 2, md: 1 },
-              }}
-            >
-              <FormLabel
-                id="demo-row-radio-buttons-group-label"
-                className="text-1xl"
-              >
-                Choose desire amount
-              </FormLabel>
-              <ButtonGroup
-                variant="contained"
-                aria-label="outlined primary button group"
-                sx={{
-                  display: "flex",
-                  flexDirection: { xs: "column", md: "row" },
-                }}
-              >
-                <Button
-                  sx={{ color: "black" }}
-                  onClick={() => setDerisedAmount("2000000")}
-                >
-                  2M
-                </Button>
-                <Button
-                  sx={{ color: "black" }}
-                  onClick={() => setDerisedAmount("1000000")}
-                >
-                  1M
-                </Button>
-                <Button
-                  sx={{ color: "black" }}
-                  onClick={() => setDerisedAmount("500000")}
-                >
-                  500k
-                </Button>
-                <Button
-                  sx={{ color: "black" }}
-                  onClick={() => setDerisedAmount("300000")}
-                >
-                  300k
-                </Button>
-                <Button
-                  sx={{ color: "black" }}
-                  onClick={() => setDerisedAmount("100000")}
-                >
-                  100k
-                </Button>
-                <Button
-                  sx={{ color: "black" }}
-                  onClick={() => setDerisedAmount("50000")}
-                >
-                  50k
-                </Button>
-                <Button
-                  sx={{ color: "black" }}
-                  onClick={() => setDerisedAmount("20000")}
-                >
-                  20k
-                </Button>
-              </ButtonGroup>
-            </FormControl>
-          </Grid>
-        </Grid>
-
-        <div className="divider text-black sm:text-xl"></div>
-
-        <FormControl required>
-          <FormLabel
-            id="demo-row-radio-buttons-group-label"
-            className="text-black sm:text-x"
-          >
-            Desired Loan Term
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="demo-row-radio-buttons-group-label"
-            name="row-radio-buttons-group"
-            value={loanTerm}
-            onChange={(e) => setLoanTerm(e.target.value)}
-          >
-            <FormControlLabel
-              value="12"
-              control={<Radio />}
-              label="12 Months"
-            />
-
-            <FormControlLabel
-              value="18"
-              control={<Radio />}
-              label="18 Months"
-            />
-            <FormControlLabel
-              value="24"
-              control={<Radio />}
-              label="24 Months"
-            />
-            <FormControlLabel
-              value="36"
-              control={<Radio />}
-              label="36 Months"
-            />
-          </RadioGroup>
-        </FormControl>
-
-        <div className="divider text-red-500 sm:text-xl"></div>
-        <FormControl sx={{ display: "block", justifyContent: "space-between" }}>
-          <FormLabel
-            id="demo-row-radio-buttons-group-label"
-            className="text-black sm:text-x"
-          >
-            Loan Application Type
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="demo-row-radio-buttons-group-label"
-            name="row-radio-buttons-group"
-            value={loanType}
-            onChange={(e) => setLoanType(e.target.value)}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <FormControlLabel
-              value="new-application"
-              control={<Radio />}
-              label="New Application"
-            />
-
-            <FormControlLabel
-              value="with-existing-loan"
-              control={<Radio />}
-              label="With Existing Loan"
-            />
-            <FormControlLabel
-              value="with-previous-loan"
-              control={<Radio />}
-              label="With Previous Loan"
-            />
-            <FormControlLabel
-              value="with-previous-application"
-              control={<Radio />}
-              label="With Previous Application"
-            />
-          </RadioGroup>
-        </FormControl>
-
-        <div className="divider text-red-500 sm:text-xl"></div>
-        <FormControl required sx={{ display: "block" }}>
-          <FormLabel id="demo-row-radio-buttons-group-label">
-            Purpose of Loan
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="demo-row-radio-buttons-group-label"
-            name="row-radio-buttons-group"
-            value={purposeOfLoan}
-            onChange={(e) => setPurposeOfLoan(e.target.value)}
-            sx={{ display: "flex" }}
-          >
-            <Box display={"flex"} flexDirection={"column"}>
-              <FormControlLabel
-                value="appliance"
-                control={<Radio />}
-                label="Appliance"
-              />
-              <FormControlLabel
-                value="balance-transfer"
-                control={<Radio />}
-                label="Balance Transfer"
-              />
-              <FormControlLabel
-                value="education"
-                control={<Radio />}
-                label="Education"
-              />
-            </Box>
-
-            <Box display={"flex"} flexDirection={"column"}>
-              <FormControlLabel
-                value="health-and-hospitalization"
-                control={<Radio />}
-                label="Health / Hospitalization"
-              />
-              <FormControlLabel
-                value="home-improvement"
-                control={<Radio />}
-                label="Home Improvement"
-              />
-              <FormControlLabel
-                value="livelihood-and-working-capital"
-                control={<Radio />}
-                label="Livelihood / Working Capital"
-              />
-            </Box>
-
-            <Box display={"flex"} flexDirection={"column"}>
-              <FormControlLabel
-                value="travel"
-                control={<Radio />}
-                label="Travel"
-              />
-              <FormControlLabel
-                value="personal"
-                control={<Radio />}
-                label="Personal"
-              />
-            </Box>
-          </RadioGroup>
-        </FormControl>
-
-        <div className="divider text-red-500 sm:text-xl"></div>
-        <FormControl required sx={{ display: "block" }}>
-          <FormLabel id="demo-row-radio-buttons-group-label">
-            Source of Loan Application
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="demo-row-radio-buttons-group-label"
-            name="row-radio-buttons-group"
-            value={sourceOfLoan}
-            onChange={(e) => {
-              setSourceOfLoan(e.target.value);
-            }}
-          >
-            <FormControlLabel
-              value="branch"
-              control={<Radio />}
-              label="Branch"
-            />
-            <TextField
-              variant="outlined"
-              label="Branch Name"
-              sx={{ display: isBranch }}
-              value={brachName}
-              onChange={(e) => setBranchName(e.target.value)}
-            />
-            <FormControlLabel
-              value="agency"
-              control={<Radio />}
-              label="Agency"
-            />
-            <TextField
-              variant="outlined"
-              label="Agency Name"
-              sx={{ display: isAgency }}
-              value={agencyName}
-              onChange={(e) => setAgencyName(e.target.value)}
-            />
-            <FormControlLabel
-              value="walk-in"
-              control={<Radio />}
-              label="Walk - in"
-            />
-            <FormControlLabel
-              value="employee-referral"
-              control={<Radio />}
-              label="Employee Referral"
-            />
-            <FormControlLabel
-              value="telemarketing"
-              control={<Radio />}
-              label="Telemarketing"
-            />
-            <FormControlLabel
-              value="website"
-              control={<Radio />}
-              label="Website"
-            />
-
-            <FormControlLabel
-              value="others"
-              control={<Radio />}
-              label="Others"
-            />
-            <TextField
-              variant="outlined"
-              label="Other source"
-              sx={{ display: isOthers }}
-              value={otherSource}
-              onChange={(e) => setOtherSource(e.target.value)}
-            />
-          </RadioGroup>
-        </FormControl>
-
-        <div className="divider text-red-500 sm:text-xl"></div>
-        <FormControl required sx={{ display: "block" }}>
-          <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="demo-row-radio-buttons-group-label"
-            name="row-radio-buttons-group"
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
-          >
-            <FormControlLabel value="male" control={<Radio />} label="Male" />
-
-            <FormControlLabel
-              value="female"
-              control={<Radio />}
-              label="Female"
-            />
-          </RadioGroup>
-        </FormControl>
-
-        <div className="divider text-red-500 sm:text-xl"></div>
-        <FormControl required sx={{ display: "block" }}>
-          <FormLabel id="demo-row-radio-buttons-group-label">Title</FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="demo-row-radio-buttons-group-label"
-            name="row-radio-buttons-group"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          >
-            <FormControlLabel value="mr" control={<Radio />} label="Mr." />
-            <FormControlLabel value="ms" control={<Radio />} label="Ms." />
-            <FormControlLabel value="mrs" control={<Radio />} label="Mrs." />
-          </RadioGroup>
-        </FormControl>
-
-        <div className="divider text-red-500 sm:text-xl"></div>
-        <Stack flexDirection={{ md: "row", xs: "column" }} my={2}>
-          <TextField
-            type="text"
-            label="First Name"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-          <TextField
-            type="text"
-            label="Middle Name"
-            value={middleName}
-            onChange={(e) => setMiddleName(e.target.value)}
-          />
-          <TextField
-            type="text"
-            label="Last Name"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-        </Stack>
-
-        <div className="divider text-red-500 sm:text-xl"></div>
-        <Stack flexDirection={{ md: "row", xs: "column" }} my={2}>
-          <TextField
-            type="text"
-            label="Other Name (Alias)"
-            value={aliasName}
-            onChange={(e) => setAliasName(e.target.value)}
-          />
-
-          <TextField
-            type="text"
-            label="Date of Birth (dd/mm/yyy)"
-            value={birthdate}
-            onChange={(e) => setBirthDate(e.target.value)}
-          />
-
-          <TextField
-            type="text"
-            label="Place of birth"
-            value={placeOfBirth}
-            onChange={(e) => setPlaceOfBirth(e.target.value)}
-          />
-        </Stack>
-
         <div className="divider text-red-500 sm:text-xl"></div>
         <FormControl required sx={{ display: "block" }}>
           <FormLabel id="demo-row-radio-buttons-group-label">
