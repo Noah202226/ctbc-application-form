@@ -108,11 +108,11 @@ const CtbcForm = () => {
       }}
       className="bg-slate-50 container mx-auto"
     >
-      <div className="flex flex-col w-auto">
-        <h1 className="text-3xl sm:text-4xl text-center ">
-          CTBC APPLICATION FORM
-        </h1>
-        <ul className="steps steps-vertical lg:steps-horizontal">
+      <h1 className="text-3xl sm:text-4xl text-center ">
+        CTBC APPLICATION FORM
+      </h1>
+      <div className="flex flex-col sm:flex-col  w-full">
+        <ul className="steps my-3">
           {stepsdata.map((step) => {
             return (
               <li
@@ -121,9 +121,11 @@ const CtbcForm = () => {
                   step.done ? "step-success" : ""
                 } flex flex-col ${
                   step.activeform ? "after:text-2xl underline" : ""
-                }`}
+                }
+                  
+                `}
               >
-                {step.stepName}
+                <p className="hidden lg:block">{step.stepName}</p>
               </li>
             );
           })}
@@ -131,7 +133,7 @@ const CtbcForm = () => {
 
         <form>
           <div className="card  bg-slate-200 text-neutral-content relative">
-            <div className="card-actions justify-between ">
+            <div className="card-actions justify-between m-2 ">
               {currentIndex != 0 ? (
                 <button
                   className="btn btn-ghost "

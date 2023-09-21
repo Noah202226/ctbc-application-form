@@ -51,12 +51,13 @@ const References = () => {
     setPersonalReferenceAddress3,
   } = formStore((state) => state);
   return (
-    <div>
+    <div className="w-full">
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
         alignItems={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
         my={1}
+        width={"100%"}
       >
         <Typography variant="h6" sx={{ marginLeft: 2 }}>
           Bank / Credit References
@@ -71,6 +72,7 @@ const References = () => {
             label="Bank Name"
             value={bankName}
             onChange={(e) => setBankName(e.target.value)}
+            fullWidth
           />
           <TextField
             sx={{ marginLeft: 2 }}
