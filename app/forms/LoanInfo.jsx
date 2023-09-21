@@ -69,7 +69,7 @@ const LoanInfo = () => {
   return (
     <div>
       {/* Desired Amount */}
-      <Grid className="">
+      <Grid>
         <Grid item xs={12} md={6}>
           <TextField
             label="Derised Loan Amount"
@@ -180,7 +180,10 @@ const LoanInfo = () => {
       </FormControl>
 
       {/* Loan Type */}
-      <FormControl sx={{ display: "block", justifyContent: "space-between" }}>
+      <FormControl
+        required
+        sx={{ display: "block", justifyContent: "space-between" }}
+      >
         <FormLabel
           id="demo-row-radio-buttons-group-label"
           className="text-black text-2xl"
@@ -292,8 +295,11 @@ const LoanInfo = () => {
 
       {/* Source of Loan */}
       <FormControl required sx={{ display: "block" }}>
-        <FormLabel id="demo-row-radio-buttons-group-label">
-          Source of Loan Application
+        <FormLabel
+          id="demo-row-radio-buttons-group-label"
+          className="text-2xl text-black"
+        >
+          Source of Loan
         </FormLabel>
         <RadioGroup
           row

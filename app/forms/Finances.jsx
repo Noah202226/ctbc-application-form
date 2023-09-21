@@ -317,11 +317,14 @@ const Finances = () => {
 
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
         my={2}
       >
-        <Typography variant="h6">Years And Month At Present Company</Typography>
+        <Typography width={"100%"} variant="h6">
+          Years And Month At Present Company
+        </Typography>
 
         <Stack
           flexDirection={{ xs: "column", md: "row" }}
@@ -349,11 +352,14 @@ const Finances = () => {
 
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
         my={2}
       >
-        <Typography variant="h6">Office Contact Number</Typography>
+        <Typography width={"35%"} variant="h6">
+          Office Contact Number
+        </Typography>
 
         <Stack
           flexDirection={{ xs: "column", md: "row" }}
@@ -393,37 +399,33 @@ const Finances = () => {
               onChange={(e) => setOfficeMobile(e.target.value)}
             />
           </Stack>
+          <Stack flexDirection={"row"}>
+            <TextField
+              sx={{ marginLeft: 2 }}
+              variant="outlined"
+              label="Office Fax"
+              value={officeFax}
+              onChange={(e) => setOfficeFax(e.target.value)}
+            />
+            <TextField
+              sx={{ marginLeft: 2 }}
+              variant="outlined"
+              label="Office Email"
+              value={officeEmail}
+              onChange={(e) => setOfficeEmail(e.target.value)}
+            />
+          </Stack>
         </Stack>
       </Stack>
 
       <Stack
-        flexDirection={"row"}
-        alignItems={"center"}
-        justifyContent={{ xs: "flex-start", md: "flex-end" }}
-      >
-        <TextField
-          sx={{ marginLeft: 2 }}
-          variant="outlined"
-          label="Office Fax"
-          value={officeFax}
-          onChange={(e) => setOfficeFax(e.target.value)}
-        />
-        <TextField
-          sx={{ marginLeft: 2 }}
-          variant="outlined"
-          label="Office Email"
-          value={officeEmail}
-          onChange={(e) => setOfficeEmail(e.target.value)}
-        />
-      </Stack>
-
-      <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
         my={1}
       >
-        <Typography variant="h6" sx={{ marginLeft: 2 }}>
+        <Typography width={"120%"} variant="h6" sx={{ marginLeft: 2 }}>
           Monthly Income (based on 1 Month payslip)
         </Typography>
         <TextField
@@ -460,11 +462,12 @@ const Finances = () => {
 
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
         my={1}
       >
-        <Typography variant="h6" sx={{ marginLeft: 2 }}>
+        <Typography width={"100%"} variant="h6" sx={{ marginLeft: 2 }}>
           Previous Employer / Business Name
         </Typography>
         <TextField
@@ -479,10 +482,11 @@ const Finances = () => {
 
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
       >
-        <Typography variant="h6" sx={{ marginLeft: 2 }}>
+        <Typography width={"100%"} variant="h6" sx={{ marginLeft: 2 }}>
           Years / Months at Previous Company
         </Typography>
 
@@ -510,11 +514,12 @@ const Finances = () => {
 
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
         my={1}
       >
-        <Typography variant="h6" sx={{ marginLeft: 2 }}>
+        <Typography width={"100%"} variant="h6" sx={{ marginLeft: 2 }}>
           Previous Company Contact Number
         </Typography>
 
@@ -579,11 +584,12 @@ const Finances = () => {
 
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
         my={1}
       >
-        <Typography variant="h6" sx={{ marginLeft: 2 }}>
+        <Typography width={"100%"} variant="h6" sx={{ marginLeft: 2 }}>
           Office Contact Number
         </Typography>
 
@@ -624,11 +630,12 @@ const Finances = () => {
 
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
         my={1}
       >
-        <Typography variant="h6" sx={{ marginLeft: 2 }}>
+        <Typography width={"100%"} variant="h6" sx={{ marginLeft: 2 }}>
           Years / Months at Present Company
         </Typography>
 

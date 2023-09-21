@@ -17,7 +17,7 @@ const CtbcForm = () => {
   const [stepsdata, setStepsdata] = useState([
     {
       stepName: "Loan information",
-      done: false,
+      done: true,
       index: 0,
       activeform: true,
       formFields: <LoanInfo />,
@@ -64,7 +64,7 @@ const CtbcForm = () => {
         if (step.index === index) {
           return { ...step, activeform: isDone, done: true };
         } else if (step.index === index + 1) {
-          return { ...step, activeform: true };
+          return { ...step, activeform: true, done: true };
         } else {
           return { ...step, activeform: false };
         }
@@ -80,16 +80,17 @@ const CtbcForm = () => {
   const goToPreviousStep = (e, index, isDone) => {
     e.preventDefault();
     console.log("go back", index);
-    if (index > 0) {
+    if (index >= 0) {
       setTimeout(() => {
         // Create a new array with updated data
         const updatedStepsdata = stepsdata.map((step) => {
           if (step.index === index) {
-            return { ...step, activeform: false };
+            return { ...step, activeform: false, done: false };
           } else if (step.index === index - 1) {
-            return { ...step, activeform: true, done: isDone }; // Set the previous step's done property
+            return { ...step, activeform: true }; // Set the previous step's done property
+          } else {
+            return { ...step, activeform: false }; // Keep the other steps unchanged
           }
-          return step; // Keep the other steps unchanged
         });
 
         // Update the state with the new array
@@ -136,7 +137,7 @@ const CtbcForm = () => {
             <div className="card-actions justify-between m-2 ">
               {currentIndex != 0 ? (
                 <button
-                  className="btn btn-ghost "
+                  className="btn"
                   onClick={(e) => goToPreviousStep(e, currentIndex)}
                 >
                   Back
@@ -147,7 +148,7 @@ const CtbcForm = () => {
 
               {currentIndex <= 3 ? (
                 <button
-                  className="btn  btn-info"
+                  className="btn  btn-success"
                   onClick={(e) => updateStep(e, currentIndex)}
                 >
                   Next

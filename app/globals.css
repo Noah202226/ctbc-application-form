@@ -7,6 +7,15 @@
   color: black !important;
 }
 
+.MuiTypography-root {
+  font-size: 1rem;
+}
+
+.MuiFormControl-root {
+  font-size: 3rem;
+  text-align: start;
+  /* align-items: center; */
+}
 .steps {
   overflow: hidden;
 }

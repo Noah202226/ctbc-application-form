@@ -54,12 +54,16 @@ const References = () => {
     <div className="w-full">
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
         my={1}
-        width={"100%"}
       >
-        <Typography variant="h6" sx={{ marginLeft: 2 }}>
+        <Typography
+          width={{ xs: "100%", md: "30%" }}
+          variant="h6"
+          sx={{ marginLeft: 2 }}
+        >
           Bank / Credit References
         </Typography>
         <Stack
@@ -100,11 +104,16 @@ const References = () => {
 
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
         my={1}
       >
-        <Typography variant="h6" sx={{ marginLeft: 2 }}>
+        <Typography
+          width={{ xs: "100%", md: "30%" }}
+          variant="h6"
+          sx={{ marginLeft: 2 }}
+        >
           Credit Card Owned / Other Loans
         </Typography>
 
@@ -152,11 +161,16 @@ const References = () => {
 
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
         my={1}
       >
-        <Typography variant="h6" sx={{ marginLeft: 2 }}>
+        <Typography
+          width={{ xs: "100%", md: "30%" }}
+          variant="h6"
+          sx={{ marginLeft: 2 }}
+        >
           Personal / Trade Reference 1
         </Typography>
 
@@ -197,11 +211,16 @@ const References = () => {
 
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
         my={1}
       >
-        <Typography variant="h6" sx={{ marginLeft: 2 }}>
+        <Typography
+          width={{ xs: "100%", md: "30%" }}
+          variant="h6"
+          sx={{ marginLeft: 2 }}
+        >
           Personal / Trade Reference 2
         </Typography>
 
@@ -242,11 +261,16 @@ const References = () => {
 
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
         my={1}
       >
-        <Typography variant="h6" sx={{ marginLeft: 2 }}>
+        <Typography
+          width={{ xs: "100%", md: "30%" }}
+          variant="h6"
+          sx={{ marginLeft: 2 }}
+        >
           Personal / Trade Reference 3
         </Typography>
 

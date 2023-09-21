@@ -479,10 +479,13 @@ const PersonalInfo = () => {
 
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
       >
-        <Typography variant="h6">Year / Month at Present Address</Typography>
+        <Typography width={{ xs: "100%", md: "60%" }} variant="h6">
+          Year / Month at Present Address
+        </Typography>
 
         <Stack flexDirection={"row"}>
           <TextField
@@ -504,11 +507,14 @@ const PersonalInfo = () => {
 
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
         my={1}
       >
-        <Typography variant="h6">Residence Contact Number</Typography>
+        <Typography width={"100%"} variant="h6">
+          Residence Contact Number
+        </Typography>
         <TextField
           sx={{ marginLeft: { xs: 0, md: 5 } }}
           variant="outlined"
@@ -573,11 +579,14 @@ const PersonalInfo = () => {
 
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
         sx={{ mt: 1 }}
       >
-        <Typography variant="h6">Year / Month at Present Address</Typography>
+        <Typography width={"100%"} variant="h6">
+          Year / Month at Present Address
+        </Typography>
 
         <Stack flexDirection={"row"}>
           <TextField
@@ -599,11 +608,14 @@ const PersonalInfo = () => {
 
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
         sx={{ mt: 1 }}
       >
-        <Typography variant="h6">Permanent Contact Number</Typography>
+        <Typography width={"100%"} variant="h6">
+          Permanent Contact Number
+        </Typography>
         <Stack flexDirection={"row"}>
           <TextField
             sx={{ marginLeft: { xs: 0, md: 5 } }}
@@ -650,11 +662,14 @@ const PersonalInfo = () => {
 
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
         sx={{ mt: 1 }}
       >
-        <Typography variant="h6">Year / Month at Present Address</Typography>
+        <Typography width={"100%"} variant="h6">
+          Year / Month at Present Address
+        </Typography>
         <Stack
           flexDirection={{ xs: "column", md: "row" }}
           alignItems={"start"}
@@ -690,11 +705,14 @@ const PersonalInfo = () => {
 
       <Stack
         flexDirection={{ xs: "column", md: "row" }}
-        alignItems={"start"}
+        alignItems={{ xs: "start", md: "center" }}
+        textAlign={"start"}
         justifyContent={{ md: "space-between", xs: "center" }}
         sx={{ mt: 1 }}
       >
-        <Typography variant="h6">Provincial Contact Number</Typography>
+        <Typography width={"100%"} variant="h6">
+          Provincial Contact Number
+        </Typography>
 
         <Stack flexDirection={"row"}>
           <TextField
