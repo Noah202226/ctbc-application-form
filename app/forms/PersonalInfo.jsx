@@ -317,13 +317,13 @@ const PersonalInfo = () => {
         />
         <TextField
           type="text"
-          label="Middle Name"
+          label="Mother's Maiden Name"
           value={mothersMiddleName}
           onChange={(e) => setMothersMiddleName(e.target.value)}
         />
         <TextField
           type="text"
-          label="Last Name"
+          label="Mother's Name"
           value={mothersLastname}
           onChange={(e) => setMothersLastName(e.target.value)}
         />

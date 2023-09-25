@@ -20,6 +20,8 @@ const GeneratePdf = () => {
     loanType,
     purposeOfLoan,
     sourceOfLoan,
+    agencyName,
+    branchName,
     gender,
     title,
     firstName,
@@ -354,7 +356,7 @@ const GeneratePdf = () => {
         rotate: style.rotate,
         opacity: 0.9,
       });
-      firstPage.drawText(brachName.toUpperCase(), {
+      firstPage.drawText(branchName.toUpperCase(), {
         x: 260,
         y: 72,
         size: 6,
@@ -1013,14 +1015,46 @@ const GeneratePdf = () => {
     }
 
     // Current Home Address
-    firstPage.drawText(currentHomeAddress, {
-      x: 205,
-      y: 215,
-      size: 6,
-      font: helveticaFont,
-      color: style.color,
-      rotate: style.rotate,
-    });
+    if (currentHomeAddress.length < 18) {
+      firstPage.drawText(currentHomeAddress, {
+        x: 205,
+        y: 215,
+        size: 9,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+    } else {
+      // Count spaces
+      var spaceCount = currentHomeAddress.split(" ").length - 1;
+
+      console.log("Number of spaces:", spaceCount);
+      // Find the index of the first space character
+
+      const halfSpaceIndex = currentHomeAddress.indexOf(" ", spaceCount + 5);
+
+      const firstline = currentHomeAddress.slice(0, halfSpaceIndex);
+      const lastline = currentHomeAddress.slice(
+        halfSpaceIndex,
+        currentHomeAddress.length
+      );
+      firstPage.drawText(firstline.toUpperCase(), {
+        x: 200,
+        y: 215,
+        size: 9,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+      firstPage.drawText(lastline.toUpperCase(), {
+        x: 210,
+        y: 212,
+        size: 9,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+    }
 
     // Year at Home Address
     firstPage.drawText(yrAtPresentAddress, {
@@ -1133,14 +1167,69 @@ const GeneratePdf = () => {
     });
 
     // Permanent Home Address
-    firstPage.drawText(permanentHomeAddress, {
-      x: 318,
-      y: 215,
-      size: 6,
-      font: helveticaFont,
-      color: style.color,
-      rotate: style.rotate,
-    });
+    if (permanentHomeAddress.length < 18) {
+      firstPage.drawText(permanentHomeAddress, {
+        x: 318,
+        y: 215,
+        size: 9,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+    } else {
+      // Find the index of the first space character
+      const firstSpaceIndex = permanentHomeAddress.indexOf(" ");
+
+      if (firstSpaceIndex !== -1) {
+        // Find the index of the second space character starting from after the first space
+        const secondSpaceIndex = permanentHomeAddress.indexOf(
+          " ",
+          firstSpaceIndex + 1
+        );
+
+        if (secondSpaceIndex !== -1) {
+          console.log("Index of the second space character:", secondSpaceIndex);
+
+          // Find the index of the third space character starting from after the second space
+          const thirdSpaceIndex = permanentHomeAddress.indexOf(
+            " ",
+            secondSpaceIndex + 1
+          );
+
+          if (thirdSpaceIndex !== -1) {
+            console.log("Index of the third space character:", thirdSpaceIndex);
+
+            const firstline = permanentHomeAddress.slice(0, thirdSpaceIndex);
+            const lastline = permanentHomeAddress.slice(
+              thirdSpaceIndex,
+              permanentHomeAddress.length
+            );
+            firstPage.drawText(firstline.toUpperCase(), {
+              x: 313,
+              y: 215,
+              size: 9,
+              font: helveticaFont,
+              color: style.color,
+              rotate: style.rotate,
+            });
+            firstPage.drawText(lastline.toUpperCase(), {
+              x: 313,
+              y: 212,
+              size: 9,
+              font: helveticaFont,
+              color: style.color,
+              rotate: style.rotate,
+            });
+          } else {
+            console.log("Third space not found in the text.");
+          }
+        } else {
+          console.log("Second space not found in the text.");
+        }
+      } else {
+        console.log("First space not found in the text.");
+      }
+    }
 
     // Year at Home Address
     firstPage.drawText(permanentYrAtPresentAddress, {
@@ -1222,14 +1311,70 @@ const GeneratePdf = () => {
     });
 
     // Previous Home Address
-    firstPage.drawText(previousHomeAddress, {
-      x: 410,
-      y: 215,
-      size: 6,
-      font: helveticaFont,
-      color: style.color,
-      rotate: style.rotate,
-    });
+    if (previousHomeAddress.length < 18) {
+      firstPage.drawText(previousHomeAddress, {
+        x: 410,
+        y: 215,
+        size: 9,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+    } else {
+      // Find the index of the first space character
+      const firstSpaceIndex = previousHomeAddress.indexOf(" ");
+
+      if (firstSpaceIndex !== -1) {
+        // Find the index of the second space character starting from after the first space
+        const secondSpaceIndex = previousHomeAddress.indexOf(
+          " ",
+          firstSpaceIndex + 1
+        );
+
+        if (secondSpaceIndex !== -1) {
+          console.log("Index of the second space character:", secondSpaceIndex);
+
+          // Find the index of the third space character starting from after the second space
+          const thirdSpaceIndex = previousHomeAddress.indexOf(
+            " ",
+            secondSpaceIndex + 1
+          );
+
+          if (thirdSpaceIndex !== -1) {
+            console.log("Index of the third space character:", thirdSpaceIndex);
+
+            const firstline = previousHomeAddress.slice(0, thirdSpaceIndex);
+            const lastline = previousHomeAddress.slice(
+              thirdSpaceIndex,
+              previousHomeAddress.length
+            );
+            firstPage.drawText(firstline.toUpperCase(), {
+              x: 405,
+              y: 215,
+              size: 9,
+              font: helveticaFont,
+              color: style.color,
+              rotate: style.rotate,
+            });
+            firstPage.drawText(lastline.toUpperCase(), {
+              x: 415,
+              y: 212,
+              size: 9,
+              size: 9,
+              font: helveticaFont,
+              color: style.color,
+              rotate: style.rotate,
+            });
+          } else {
+            console.log("Third space not found in the text.");
+          }
+        } else {
+          console.log("Second space not found in the text.");
+        }
+      } else {
+        console.log("First space not found in the text.");
+      }
+    }
 
     // Year at Previous Address
     firstPage.drawText(yrsAtPreviousHomeAddress, {
@@ -1252,14 +1397,70 @@ const GeneratePdf = () => {
     });
 
     // Provincial Home Address
-    firstPage.drawText(provincialHomeAddress, {
-      x: 475,
-      y: 215,
-      size: 6,
-      font: helveticaFont,
-      color: style.color,
-      rotate: style.rotate,
-    });
+    if (provincialHomeAddress.length < 18) {
+      firstPage.drawText(provincialHomeAddress, {
+        x: 475,
+        y: 215,
+        size: 9,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+    } else {
+      // Find the index of the first space character
+      const firstSpaceIndex = provincialHomeAddress.indexOf(" ");
+
+      if (firstSpaceIndex !== -1) {
+        // Find the index of the second space character starting from after the first space
+        const secondSpaceIndex = provincialHomeAddress.indexOf(
+          " ",
+          firstSpaceIndex + 1
+        );
+
+        if (secondSpaceIndex !== -1) {
+          console.log("Index of the second space character:", secondSpaceIndex);
+
+          // Find the index of the third space character starting from after the second space
+          const thirdSpaceIndex = provincialHomeAddress.indexOf(
+            " ",
+            secondSpaceIndex + 1
+          );
+
+          if (thirdSpaceIndex !== -1) {
+            console.log("Index of the third space character:", thirdSpaceIndex);
+
+            const firstline = provincialHomeAddress.slice(0, thirdSpaceIndex);
+            const lastline = provincialHomeAddress.slice(
+              thirdSpaceIndex,
+              provincialHomeAddress.length
+            );
+            firstPage.drawText(firstline.toUpperCase(), {
+              x: 470,
+              y: 215,
+              size: 9,
+              font: helveticaFont,
+              color: style.color,
+              rotate: style.rotate,
+            });
+            firstPage.drawText(lastline.toUpperCase(), {
+              x: 480,
+              y: 212,
+              size: 9,
+              size: 9,
+              font: helveticaFont,
+              color: style.color,
+              rotate: style.rotate,
+            });
+          } else {
+            console.log("Third space not found in the text.");
+          }
+        } else {
+          console.log("Second space not found in the text.");
+        }
+      } else {
+        console.log("First space not found in the text.");
+      }
+    }
 
     // Area Code at Provincial Home Address
     firstPage.drawText(provincialAreaCode, {
@@ -2223,7 +2424,7 @@ const GeneratePdf = () => {
     });
 
     // Client Contact
-    firstPage.drawText(`CLIENT MOBILE NUMBER: ${clientMobileNo}`, {
+    firstPage.drawText(`CLIENT MOBILE NUMBER: ${permanentResidenseMobile}`, {
       x: 25,
       y: 220,
       size: 18,
@@ -2266,7 +2467,7 @@ const GeneratePdf = () => {
         width={"100%"}
         justifyContent={"space-around"}
       >
-        <div className="form-control">
+        {/* <div className="form-control">
           <label className="input-group input-group-vertical">
             <span>Client Mobile No.</span>
             <input
@@ -2277,11 +2478,11 @@ const GeneratePdf = () => {
               onChange={(e) => setClientMobileNo(e.target.value)}
             />
           </label>
-        </div>
+        </div> */}
 
         <div className="form-control">
           <label className="input-group input-group-vertical">
-            <span>Client best time to call</span>
+            <span>Your best time to call</span>
             <input
               type="text"
               placeholder="Range here..."

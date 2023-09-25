@@ -60,9 +60,9 @@ export const formStore = create((set, get) => ({
   isSpouseWorking: "",
   setIsSpouseWorking: (e) => set({ isSpouseWorking: e }),
   noOfChild: "",
-  setNoOfChiled: (e) => set({ noOfChild: e }),
+  setNoOfChild: (e) => set({ noOfChild: e }),
   noOfDependents: "",
-  setNoOfDependents: (e) => set({ e }),
+  setNoOfDependents: (e) => set({ noOfDependents: e }),
   mothersFirstname: "",
   setMothersFirstName: (e) => set({ mothersFirstname: e }),
   mothersMiddleName: "",
@@ -116,7 +116,7 @@ export const formStore = create((set, get) => ({
   setResidenseMobile: (e) => set({ residenseMobile: e }),
 
   fax: "",
-  setFax: () => set({ fax: e }),
+  setFax: (e) => set({ fax: e }),
   personalEmail: "",
   setPersonalEmail: (e) => set({ personalEmail: e }),
   permanentHomeAddress: "",
@@ -127,7 +127,7 @@ export const formStore = create((set, get) => ({
     set({ permanentYrAtPresentAddress: e }),
   permanentMnAtPresentAddress: "",
   setpermanentMnAtPresentAddress: (e) =>
-    set({ setpermanentMnAtPresentAddress: e }),
+    set({ permanentMnAtPresentAddress: e }),
 
   permanentResidenceAreaCode: "",
   setPermanentResidenceAreaCode: (e) => set({ permanentResidenceAreaCode: e }),
