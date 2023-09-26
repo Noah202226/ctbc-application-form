@@ -167,7 +167,8 @@ const GeneratePdf = () => {
     const checkImage = await pdfDoc.embedPng(checkImageBytes);
 
     // Amount
-    firstPage.drawText(desiredAmount, {
+    const desiredAmountConverted = parseInt(desiredAmount, 10);
+    firstPage.drawText(desiredAmountConverted.toLocaleString(), {
       x: 175,
       y: 20,
       size: 12,
