@@ -167,8 +167,7 @@ const GeneratePdf = () => {
     const checkImage = await pdfDoc.embedPng(checkImageBytes);
 
     // Amount
-    const desiredAmountConverted = parseInt(desiredAmount, 10);
-    firstPage.drawText(desiredAmountConverted.toLocaleString(), {
+    firstPage.drawText(desiredAmount.toLocaleString(), {
       x: 175,
       y: 20,
       size: 12,
@@ -1032,24 +1031,40 @@ const GeneratePdf = () => {
       console.log("Number of spaces:", spaceCount);
       // Find the index of the first space character
 
-      const halfSpaceIndex = currentHomeAddress.indexOf(" ", spaceCount + 5);
+      const halfSpaceIndex = currentHomeAddress.indexOf(" ", spaceCount + 20);
+      const thirdSpaceIndex = currentHomeAddress.indexOf(" ", spaceCount + 40);
+
+      console.log("halfSpaceIndex:", halfSpaceIndex);
+      console.log("thirdSpaceIndex:", thirdSpaceIndex);
 
       const firstline = currentHomeAddress.slice(0, halfSpaceIndex);
-      const lastline = currentHomeAddress.slice(
+      const secondline = currentHomeAddress.slice(
         halfSpaceIndex,
+        thirdSpaceIndex
+      );
+      const lastline = currentHomeAddress.slice(
+        thirdSpaceIndex,
         currentHomeAddress.length
       );
       firstPage.drawText(firstline.toUpperCase(), {
-        x: 200,
-        y: 215,
+        x: 198,
+        y: 208,
+        size: 9,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+      firstPage.drawText(secondline.toUpperCase(), {
+        x: 208,
+        y: 206,
         size: 9,
         font: helveticaFont,
         color: style.color,
         rotate: style.rotate,
       });
       firstPage.drawText(lastline.toUpperCase(), {
-        x: 210,
-        y: 212,
+        x: 218,
+        y: 206,
         size: 9,
         font: helveticaFont,
         color: style.color,

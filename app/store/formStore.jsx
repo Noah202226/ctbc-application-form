@@ -3,7 +3,7 @@ import { create } from "zustand";
 export const formStore = create((set, get) => ({
   // Form 1 state
   desiredAmount: "",
-  handleDesiredAmount: (e) => set({ desiredAmount: e }),
+  handleDesiredAmount: (e) => set({ desiredAmount: parseInt(e, 10) }),
 
   loanTerm: "",
   handleLoanTerm: (e) => set({ loanTerm: e }),
