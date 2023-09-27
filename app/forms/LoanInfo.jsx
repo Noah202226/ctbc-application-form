@@ -316,7 +316,7 @@ const LoanInfo = () => {
           <TextField
             variant="outlined"
             label="Branch Name"
-            sx={{ display: isBranch }}
+            sx={{ display: "none" }}
             value={branchName}
             onChange={(e) => handleBranchName(e.target.value)}
           />
@@ -324,7 +324,7 @@ const LoanInfo = () => {
           <TextField
             variant="outlined"
             label="Agency Name"
-            sx={{ display: isAgency }}
+            sx={{ display: "none" }}
             value={agencyName}
             onChange={(e) => handleAgencyName(e.target.value)}
           />
@@ -353,7 +353,7 @@ const LoanInfo = () => {
           <TextField
             variant="outlined"
             label="Other source"
-            sx={{ display: isOthers }}
+            sx={{ display: "none" }}
             value={otherSourceName}
             onChange={(e) => handleOtherSourceName(e.target.value)}
           />

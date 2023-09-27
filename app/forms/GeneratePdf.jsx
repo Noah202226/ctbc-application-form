@@ -346,63 +346,7 @@ const GeneratePdf = () => {
     }
 
     // Source of Loan
-    if (sourceOfLoan == "branch") {
-      firstPage.drawImage(checkImage, {
-        x: 260,
-        y: 13,
-        height: 5,
-        width: 5,
-        color: style.color,
-        rotate: style.rotate,
-        opacity: 0.9,
-      });
-      firstPage.drawText(branchName.toUpperCase(), {
-        x: 260,
-        y: 72,
-        size: 6,
-        font: helveticaFont,
-        color: style.color,
-        rotate: style.rotate,
-      });
-    } else if (sourceOfLoan == "agency") {
-      firstPage.drawImage(checkImage, {
-        x: 271,
-        y: 13,
-        height: 5,
-        width: 5,
-        color: style.color,
-        rotate: style.rotate,
-        opacity: 0.9,
-      });
-      firstPage.drawText(agencyName.toUpperCase(), {
-        x: 271,
-        y: 72,
-        size: 6,
-        font: helveticaFont,
-        color: style.color,
-        rotate: style.rotate,
-      });
-    } else if (sourceOfLoan == "walk-in") {
-      firstPage.drawImage(checkImage, {
-        x: 281.3,
-        y: 13,
-        height: 5,
-        width: 5,
-        color: style.color,
-        rotate: style.rotate,
-        opacity: 0.9,
-      });
-    } else if (sourceOfLoan == "employee-referral") {
-      firstPage.drawImage(checkImage, {
-        x: 260,
-        y: 143,
-        height: 5,
-        width: 5,
-        color: style.color,
-        rotate: style.rotate,
-        opacity: 0.9,
-      });
-    } else if (sourceOfLoan == "telemarketing") {
+    if (sourceOfLoan !== null || undefined) {
       firstPage.drawImage(checkImage, {
         x: 271,
         y: 143,
@@ -412,30 +356,29 @@ const GeneratePdf = () => {
         rotate: style.rotate,
         opacity: 0.9,
       });
-    } else if (sourceOfLoan == "website") {
-      firstPage.drawImage(checkImage, {
-        x: 281.5,
-        y: 51.2,
-        height: 5,
-        width: 5,
+
+      firstPage.drawText("ORC RSBC".toUpperCase(), {
+        x: 260,
+        y: 72,
+        size: 8.5,
+        font: helveticaFont,
         color: style.color,
         rotate: style.rotate,
-        opacity: 0.9,
       });
-    } else if (sourceOfLoan == "others") {
-      firstPage.drawImage(checkImage, {
-        x: 281.5,
-        y: 90,
-        height: 5,
-        width: 5,
+
+      firstPage.drawText("ORC RSBC".toUpperCase(), {
+        x: 271,
+        y: 72,
+        size: 8.5,
+        font: helveticaFont,
         color: style.color,
         rotate: style.rotate,
-        opacity: 0.9,
       });
-      firstPage.drawText(otherSource, {
+
+      firstPage.drawText("N/A", {
         x: 282,
         y: 120,
-        size: 6,
+        size: 8.5,
         font: helveticaFont,
         color: style.color,
         rotate: style.rotate,
@@ -562,7 +505,7 @@ const GeneratePdf = () => {
         rotate: style.rotate,
       });
     } else {
-      firstPage.drawText(aliasName, {
+      firstPage.drawText(aliasName.toLocaleUpperCase(), {
         x: 355.8,
         y: 60,
         size: 10,
@@ -584,7 +527,7 @@ const GeneratePdf = () => {
 
     // Birth Place
     if (placeOfBirth.length < 18) {
-      firstPage.drawText(placeOfBirth, {
+      firstPage.drawText(placeOfBirth.toLocaleUpperCase(), {
         x: 383.8,
         y: 72,
         size: 6,
@@ -789,7 +732,7 @@ const GeneratePdf = () => {
     }
 
     // Nationality
-    firstPage.drawText(nationality, {
+    firstPage.drawText(nationality.toLocaleUpperCase(), {
       x: 479,
       y: 129,
       size: 8,
@@ -1019,7 +962,7 @@ const GeneratePdf = () => {
       firstPage.drawText(currentHomeAddress, {
         x: 205,
         y: 215,
-        size: 9,
+        size: 8.5,
         font: helveticaFont,
         color: style.color,
         rotate: style.rotate,
@@ -1049,7 +992,7 @@ const GeneratePdf = () => {
       firstPage.drawText(firstline.toUpperCase(), {
         x: 198,
         y: 208,
-        size: 9,
+        size: 8.5,
         font: helveticaFont,
         color: style.color,
         rotate: style.rotate,
@@ -1057,7 +1000,7 @@ const GeneratePdf = () => {
       firstPage.drawText(secondline.toUpperCase(), {
         x: 208,
         y: 206,
-        size: 9,
+        size: 8.5,
         font: helveticaFont,
         color: style.color,
         rotate: style.rotate,
@@ -1065,7 +1008,7 @@ const GeneratePdf = () => {
       firstPage.drawText(lastline.toUpperCase(), {
         x: 218,
         y: 206,
-        size: 9,
+        size: 8.5,
         font: helveticaFont,
         color: style.color,
         rotate: style.rotate,
@@ -1187,64 +1130,60 @@ const GeneratePdf = () => {
       firstPage.drawText(permanentHomeAddress, {
         x: 318,
         y: 215,
-        size: 9,
+        size: 8.5,
         font: helveticaFont,
         color: style.color,
         rotate: style.rotate,
       });
     } else {
+      // Count spaces
+      var spaceCount = permanentHomeAddress.split(" ").length - 1;
+
+      console.log("Number of spaces:", spaceCount);
       // Find the index of the first space character
-      const firstSpaceIndex = permanentHomeAddress.indexOf(" ");
 
-      if (firstSpaceIndex !== -1) {
-        // Find the index of the second space character starting from after the first space
-        const secondSpaceIndex = permanentHomeAddress.indexOf(
-          " ",
-          firstSpaceIndex + 1
-        );
+      const halfSpaceIndex = permanentHomeAddress.indexOf(" ", spaceCount + 20);
+      const thirdSpaceIndex = permanentHomeAddress.indexOf(
+        " ",
+        spaceCount + 40
+      );
 
-        if (secondSpaceIndex !== -1) {
-          console.log("Index of the second space character:", secondSpaceIndex);
+      console.log("halfSpaceIndex:", halfSpaceIndex);
+      console.log("thirdSpaceIndex:", thirdSpaceIndex);
 
-          // Find the index of the third space character starting from after the second space
-          const thirdSpaceIndex = permanentHomeAddress.indexOf(
-            " ",
-            secondSpaceIndex + 1
-          );
-
-          if (thirdSpaceIndex !== -1) {
-            console.log("Index of the third space character:", thirdSpaceIndex);
-
-            const firstline = permanentHomeAddress.slice(0, thirdSpaceIndex);
-            const lastline = permanentHomeAddress.slice(
-              thirdSpaceIndex,
-              permanentHomeAddress.length
-            );
-            firstPage.drawText(firstline.toUpperCase(), {
-              x: 313,
-              y: 215,
-              size: 9,
-              font: helveticaFont,
-              color: style.color,
-              rotate: style.rotate,
-            });
-            firstPage.drawText(lastline.toUpperCase(), {
-              x: 313,
-              y: 212,
-              size: 9,
-              font: helveticaFont,
-              color: style.color,
-              rotate: style.rotate,
-            });
-          } else {
-            console.log("Third space not found in the text.");
-          }
-        } else {
-          console.log("Second space not found in the text.");
-        }
-      } else {
-        console.log("First space not found in the text.");
-      }
+      const firstline = permanentHomeAddress.slice(0, halfSpaceIndex);
+      const secondline = permanentHomeAddress.slice(
+        halfSpaceIndex,
+        thirdSpaceIndex
+      );
+      const lastline = permanentHomeAddress.slice(
+        thirdSpaceIndex,
+        permanentHomeAddress.length
+      );
+      firstPage.drawText(firstline.toUpperCase(), {
+        x: 308,
+        y: 208,
+        size: 8.5,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+      firstPage.drawText(secondline.toUpperCase(), {
+        x: 318,
+        y: 206,
+        size: 8.5,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+      firstPage.drawText(lastline.toUpperCase(), {
+        x: 328,
+        y: 206,
+        size: 8.5,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
     }
 
     // Year at Home Address
@@ -1331,65 +1270,57 @@ const GeneratePdf = () => {
       firstPage.drawText(previousHomeAddress, {
         x: 410,
         y: 215,
-        size: 9,
+        size: 8.5,
         font: helveticaFont,
         color: style.color,
         rotate: style.rotate,
       });
     } else {
+      // Count spaces
+      var spaceCount = previousHomeAddress.split(" ").length - 1;
+
+      console.log("Number of spaces:", spaceCount);
       // Find the index of the first space character
-      const firstSpaceIndex = previousHomeAddress.indexOf(" ");
 
-      if (firstSpaceIndex !== -1) {
-        // Find the index of the second space character starting from after the first space
-        const secondSpaceIndex = previousHomeAddress.indexOf(
-          " ",
-          firstSpaceIndex + 1
-        );
+      const halfSpaceIndex = previousHomeAddress.indexOf(" ", spaceCount + 20);
+      const thirdSpaceIndex = previousHomeAddress.indexOf(" ", spaceCount + 40);
 
-        if (secondSpaceIndex !== -1) {
-          console.log("Index of the second space character:", secondSpaceIndex);
+      console.log("halfSpaceIndex:", halfSpaceIndex);
+      console.log("thirdSpaceIndex:", thirdSpaceIndex);
 
-          // Find the index of the third space character starting from after the second space
-          const thirdSpaceIndex = previousHomeAddress.indexOf(
-            " ",
-            secondSpaceIndex + 1
-          );
-
-          if (thirdSpaceIndex !== -1) {
-            console.log("Index of the third space character:", thirdSpaceIndex);
-
-            const firstline = previousHomeAddress.slice(0, thirdSpaceIndex);
-            const lastline = previousHomeAddress.slice(
-              thirdSpaceIndex,
-              previousHomeAddress.length
-            );
-            firstPage.drawText(firstline.toUpperCase(), {
-              x: 405,
-              y: 215,
-              size: 9,
-              font: helveticaFont,
-              color: style.color,
-              rotate: style.rotate,
-            });
-            firstPage.drawText(lastline.toUpperCase(), {
-              x: 415,
-              y: 212,
-              size: 9,
-              size: 9,
-              font: helveticaFont,
-              color: style.color,
-              rotate: style.rotate,
-            });
-          } else {
-            console.log("Third space not found in the text.");
-          }
-        } else {
-          console.log("Second space not found in the text.");
-        }
-      } else {
-        console.log("First space not found in the text.");
-      }
+      const firstline = previousHomeAddress.slice(0, halfSpaceIndex);
+      const secondline = previousHomeAddress.slice(
+        halfSpaceIndex,
+        thirdSpaceIndex
+      );
+      const lastline = previousHomeAddress.slice(
+        thirdSpaceIndex,
+        previousHomeAddress.length
+      );
+      firstPage.drawText(firstline.toUpperCase(), {
+        x: 402,
+        y: 208,
+        size: 8.5,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+      firstPage.drawText(secondline.toUpperCase(), {
+        x: 412,
+        y: 206,
+        size: 8.5,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+      firstPage.drawText(lastline.toUpperCase(), {
+        x: 422,
+        y: 206,
+        size: 8.5,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
     }
 
     // Year at Previous Address
@@ -1417,65 +1348,63 @@ const GeneratePdf = () => {
       firstPage.drawText(provincialHomeAddress, {
         x: 475,
         y: 215,
-        size: 9,
+        size: 8.5,
         font: helveticaFont,
         color: style.color,
         rotate: style.rotate,
       });
     } else {
+      // Count spaces
+      var spaceCount = provincialHomeAddress.split(" ").length - 1;
+
+      console.log("Number of spaces:", spaceCount);
       // Find the index of the first space character
-      const firstSpaceIndex = provincialHomeAddress.indexOf(" ");
 
-      if (firstSpaceIndex !== -1) {
-        // Find the index of the second space character starting from after the first space
-        const secondSpaceIndex = provincialHomeAddress.indexOf(
-          " ",
-          firstSpaceIndex + 1
-        );
+      const halfSpaceIndex = provincialHomeAddress.indexOf(
+        " ",
+        spaceCount + 20
+      );
+      const thirdSpaceIndex = provincialHomeAddress.indexOf(
+        " ",
+        spaceCount + 40
+      );
 
-        if (secondSpaceIndex !== -1) {
-          console.log("Index of the second space character:", secondSpaceIndex);
+      console.log("halfSpaceIndex:", halfSpaceIndex);
+      console.log("thirdSpaceIndex:", thirdSpaceIndex);
 
-          // Find the index of the third space character starting from after the second space
-          const thirdSpaceIndex = provincialHomeAddress.indexOf(
-            " ",
-            secondSpaceIndex + 1
-          );
-
-          if (thirdSpaceIndex !== -1) {
-            console.log("Index of the third space character:", thirdSpaceIndex);
-
-            const firstline = provincialHomeAddress.slice(0, thirdSpaceIndex);
-            const lastline = provincialHomeAddress.slice(
-              thirdSpaceIndex,
-              provincialHomeAddress.length
-            );
-            firstPage.drawText(firstline.toUpperCase(), {
-              x: 470,
-              y: 215,
-              size: 9,
-              font: helveticaFont,
-              color: style.color,
-              rotate: style.rotate,
-            });
-            firstPage.drawText(lastline.toUpperCase(), {
-              x: 480,
-              y: 212,
-              size: 9,
-              size: 9,
-              font: helveticaFont,
-              color: style.color,
-              rotate: style.rotate,
-            });
-          } else {
-            console.log("Third space not found in the text.");
-          }
-        } else {
-          console.log("Second space not found in the text.");
-        }
-      } else {
-        console.log("First space not found in the text.");
-      }
+      const firstline = provincialHomeAddress.slice(0, halfSpaceIndex);
+      const secondline = provincialHomeAddress.slice(
+        halfSpaceIndex,
+        thirdSpaceIndex
+      );
+      const lastline = provincialHomeAddress.slice(
+        thirdSpaceIndex,
+        provincialHomeAddress.length
+      );
+      firstPage.drawText(firstline.toUpperCase(), {
+        x: 468,
+        y: 208,
+        size: 8.5,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+      firstPage.drawText(secondline.toUpperCase(), {
+        x: 478,
+        y: 206,
+        size: 8.5,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+      firstPage.drawText(lastline.toUpperCase(), {
+        x: 488,
+        y: 206,
+        size: 8.5,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
     }
 
     // Area Code at Provincial Home Address
@@ -1704,23 +1633,26 @@ const GeneratePdf = () => {
         if (secondSpaceIndex !== -1) {
           console.log("Index of the second space character:", secondSpaceIndex);
 
-          const firstline = employerOrBusinessName.slice(0, secondSpaceIndex);
+          const firstline = employerOrBusinessName.slice(
+            0,
+            secondSpaceIndex + 10
+          );
           const lastline = employerOrBusinessName.slice(
             secondSpaceIndex,
             employerOrBusinessName.length
           );
           firstPage.drawText(firstline.toLocaleUpperCase(), {
             x: 155,
-            y: 510,
-            size: 7,
+            y: 508,
+            size: 5,
             font: helveticaFont,
             color: style.color,
             rotate: style.rotate,
           });
           firstPage.drawText(lastline.toUpperCase(), {
             x: 165,
-            y: 508,
-            size: 7,
+            y: 506,
+            size: 5,
             font: helveticaFont,
             color: style.color,
             rotate: style.rotate,
@@ -1733,7 +1665,7 @@ const GeneratePdf = () => {
       }
     }
 
-    firstPage.drawText(natureOfBusiness, {
+    firstPage.drawText(natureOfBusiness.toLocaleUpperCase(), {
       x: 186.5,
       y: 415,
       size: 6,
@@ -1741,9 +1673,9 @@ const GeneratePdf = () => {
       color: style.color,
       rotate: style.rotate,
     });
-    firstPage.drawText(yourPosition, {
+    firstPage.drawText(yourPosition.toLocaleUpperCase(), {
       x: 186.5,
-      y: 520,
+      y: 506,
       size: 6,
       font: helveticaFont,
       color: style.color,
@@ -1835,70 +1767,66 @@ const GeneratePdf = () => {
 
     // Employer / Business Address
     if (employerOrBusinessAddress.length < 18) {
-      firstPage.drawText(employerOrBusinessAddress.toUpperCase(), {
+      firstPage.drawText(employerOrBusinessAddress, {
         x: 280,
         y: 415,
-        size: 6,
+        size: 8.5,
         font: helveticaFont,
         color: style.color,
         rotate: style.rotate,
       });
     } else {
+      // Count spaces
+      var spaceCount = employerOrBusinessAddress.split(" ").length - 1;
+
+      console.log("Number of spaces:", spaceCount);
       // Find the index of the first space character
-      const firstSpaceIndex = employerOrBusinessAddress.indexOf(" ");
 
-      if (firstSpaceIndex !== -1) {
-        // Find the index of the second space character starting from after the first space
-        const secondSpaceIndex = employerOrBusinessAddress.indexOf(
-          " ",
-          firstSpaceIndex + 1
-        );
+      const halfSpaceIndex = employerOrBusinessAddress.indexOf(
+        " ",
+        spaceCount + 20
+      );
+      const thirdSpaceIndex = employerOrBusinessAddress.indexOf(
+        " ",
+        spaceCount + 40
+      );
 
-        if (secondSpaceIndex !== -1) {
-          console.log("Index of the second space character:", secondSpaceIndex);
+      console.log("halfSpaceIndex:", halfSpaceIndex);
+      console.log("thirdSpaceIndex:", thirdSpaceIndex);
 
-          // Find the index of the third space character starting from after the second space
-          const thirdSpaceIndex = employerOrBusinessAddress.indexOf(
-            " ",
-            secondSpaceIndex + 1
-          );
-
-          if (thirdSpaceIndex !== -1) {
-            console.log("Index of the third space character:", thirdSpaceIndex);
-
-            const firstline = employerOrBusinessAddress.slice(
-              0,
-              thirdSpaceIndex
-            );
-            const lastline = employerOrBusinessAddress.slice(
-              thirdSpaceIndex,
-              employerOrBusinessAddress.length
-            );
-            firstPage.drawText(firstline.toUpperCase(), {
-              x: 280,
-              y: 415,
-              size: 7,
-              font: helveticaFont,
-              color: style.color,
-              rotate: style.rotate,
-            });
-            firstPage.drawText(lastline.toUpperCase(), {
-              x: 290,
-              y: 413,
-              size: 7,
-              font: helveticaFont,
-              color: style.color,
-              rotate: style.rotate,
-            });
-          } else {
-            console.log("Third space not found in the text.");
-          }
-        } else {
-          console.log("Second space not found in the text.");
-        }
-      } else {
-        console.log("First space not found in the text.");
-      }
+      const firstline = employerOrBusinessAddress.slice(0, halfSpaceIndex);
+      const secondline = employerOrBusinessAddress.slice(
+        halfSpaceIndex,
+        thirdSpaceIndex
+      );
+      const lastline = employerOrBusinessAddress.slice(
+        thirdSpaceIndex,
+        employerOrBusinessAddress.length
+      );
+      firstPage.drawText(firstline.toUpperCase(), {
+        x: 280,
+        y: 408,
+        size: 8.5,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+      firstPage.drawText(secondline.toUpperCase(), {
+        x: 290,
+        y: 406,
+        size: 8.5,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+      firstPage.drawText(lastline.toUpperCase(), {
+        x: 300,
+        y: 406,
+        size: 8.5,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
     }
 
     // Years and month at present company
@@ -2067,7 +1995,7 @@ const GeneratePdf = () => {
         rotate: style.rotate,
       });
     } else {
-      firstPage.drawText(spouseEmployerOrBusinessName, {
+      firstPage.drawText(spouseEmployerOrBusinessName.toLocaleUpperCase(), {
         x: 498,
         y: 415,
         size: 6,
@@ -2087,7 +2015,7 @@ const GeneratePdf = () => {
         rotate: style.rotate,
       });
     } else {
-      firstPage.drawText(spouseTitleOrRank, {
+      firstPage.drawText(spouseTitleOrRank.toLocaleUpperCase(), {
         x: 498,
         y: 523,
         size: 6,
@@ -2227,6 +2155,7 @@ const GeneratePdf = () => {
     });
     // Here
     if (bankBranchName.length < 12) {
+      console.log("bankBranchName is less than 12C");
       firstPage.drawText(bankBranchName.toUpperCase(), {
         x: 188,
         y: 700,
@@ -2236,6 +2165,7 @@ const GeneratePdf = () => {
         rotate: style.rotate,
       });
     } else {
+      console.log("bankBranchName is greater than 12C", bankBranchName);
       // Find the index of the first space character
       const firstSpaceIndex = bankBranchName.indexOf(" ");
 
@@ -2257,7 +2187,7 @@ const GeneratePdf = () => {
           firstPage.drawText(firstline.toLocaleUpperCase(), {
             x: 183,
             y: 712,
-            size: 5,
+            size: 6,
             font: helveticaFont,
             color: style.color,
             rotate: style.rotate,
@@ -2265,13 +2195,22 @@ const GeneratePdf = () => {
           firstPage.drawText(lastline.toUpperCase(), {
             x: 188,
             y: 711,
-            size: 5,
+            size: 6,
             font: helveticaFont,
             color: style.color,
             rotate: style.rotate,
           });
         } else {
           console.log("Second space not found in the text.");
+
+          firstPage.drawText(bankBranchName.toLocaleUpperCase(), {
+            x: 188,
+            y: 712,
+            size: 6,
+            font: helveticaFont,
+            color: style.color,
+            rotate: style.rotate,
+          });
         }
       } else {
         console.log("First space not found in the text.");
@@ -2304,7 +2243,7 @@ const GeneratePdf = () => {
       color: style.color,
       rotate: style.rotate,
     });
-    firstPage.drawText(issuerNameOrBankName, {
+    firstPage.drawText(issuerNameOrBankName.toLocaleUpperCase(), {
       x: 287,
       y: 720,
       size: 6,
@@ -2338,7 +2277,7 @@ const GeneratePdf = () => {
     });
 
     // Personal / Trade Reference 1
-    firstPage.drawText(personalReferenceName, {
+    firstPage.drawText(personalReferenceName.toLocaleUpperCase(), {
       x: 428.5,
       y: 630,
       size: 6,
@@ -2346,7 +2285,7 @@ const GeneratePdf = () => {
       color: style.color,
       rotate: style.rotate,
     });
-    firstPage.drawText(personalReferenceRelation, {
+    firstPage.drawText(personalReferenceRelation.toLocaleUpperCase(), {
       x: 428.5,
       y: 720,
       size: 6,
@@ -2362,7 +2301,7 @@ const GeneratePdf = () => {
       color: style.color,
       rotate: style.rotate,
     });
-    firstPage.drawText(personalReferenceAddress, {
+    firstPage.drawText(personalReferenceAddress.toLocaleUpperCase(), {
       x: 485,
       y: 720,
       size: 6,
@@ -2372,7 +2311,7 @@ const GeneratePdf = () => {
     });
 
     // Personal / Trade Reference 2
-    firstPage.drawText(personalReferenceName2, {
+    firstPage.drawText(personalReferenceName2.toLocaleUpperCase(), {
       x: 440,
       y: 630,
       size: 6,
@@ -2380,7 +2319,7 @@ const GeneratePdf = () => {
       color: style.color,
       rotate: style.rotate,
     });
-    firstPage.drawText(personalReferenceRelation2, {
+    firstPage.drawText(personalReferenceRelation2.toLocaleUpperCase(), {
       x: 440,
       y: 720,
       size: 6,
@@ -2396,7 +2335,7 @@ const GeneratePdf = () => {
       color: style.color,
       rotate: style.rotate,
     });
-    firstPage.drawText(personalReferenceAddress2, {
+    firstPage.drawText(personalReferenceAddress2.toLocaleUpperCase(), {
       x: 498.5,
       y: 720,
       size: 6,
@@ -2406,7 +2345,7 @@ const GeneratePdf = () => {
     });
 
     // Personal / Trade Reference 3
-    firstPage.drawText(personalReferenceName3, {
+    firstPage.drawText(personalReferenceName3.toLocaleUpperCase(), {
       x: 455,
       y: 630,
       size: 6,
@@ -2414,7 +2353,7 @@ const GeneratePdf = () => {
       color: style.color,
       rotate: style.rotate,
     });
-    firstPage.drawText(personalReferenceRelation3, {
+    firstPage.drawText(personalReferenceRelation3.toLocaleUpperCase(), {
       x: 455,
       y: 720,
       size: 6,
@@ -2430,7 +2369,7 @@ const GeneratePdf = () => {
       color: style.color,
       rotate: style.rotate,
     });
-    firstPage.drawText(personalReferenceAddress3, {
+    firstPage.drawText(personalReferenceAddress3.toLocaleUpperCase(), {
       x: 510,
       y: 720,
       size: 6,
@@ -2448,14 +2387,17 @@ const GeneratePdf = () => {
       color: style.color,
       rotate: style.rotate,
     });
-    firstPage.drawText(`CLIENT BEST TIME TO CALL: ${clientBestTimeTocall}`, {
-      x: 45,
-      y: 220,
-      size: 14,
-      font: helveticaFont,
-      color: style.color,
-      rotate: style.rotate,
-    });
+    firstPage.drawText(
+      `CLIENT BEST TIME TO CALL: ${clientBestTimeTocall.toLocaleUpperCase()}`,
+      {
+        x: 45,
+        y: 220,
+        size: 14,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      }
+    );
     firstPage.drawText(`HRD HEAD EMAIL AD FOR EV: ${clientHeadEmail}`, {
       x: 65,
       y: 220,
