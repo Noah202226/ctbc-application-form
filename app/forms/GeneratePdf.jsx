@@ -3,6 +3,7 @@ import { PDFDocument, StandardFonts, degrees, rgb } from "pdf-lib";
 import download from "downloadjs";
 import { formStore } from "../store/formStore";
 import { Stack } from "@mui/material";
+import Image from "next/image";
 
 const pdfFile = "/rotated.pdf";
 const checkIcon = "/check.png";
@@ -33,7 +34,7 @@ const GeneratePdf = () => {
     maritalStatus,
 
     spouseName,
-    spouseWorking,
+    isSpouseWorking,
     noOfChild,
     noOfDependents,
     mothersFirstname,
@@ -640,7 +641,7 @@ const GeneratePdf = () => {
     }
 
     // Spouse working
-    if (spouseWorking == "yes") {
+    if (isSpouseWorking == "yes") {
       firstPage.drawImage(checkImage, {
         x: 424.5,
         y: 54,
@@ -650,7 +651,7 @@ const GeneratePdf = () => {
         rotate: style.rotate,
         opacity: 0.9,
       });
-    } else if (spouseWorking == "no") {
+    } else if (isSpouseWorking == "no") {
       firstPage.drawImage(checkImage, {
         x: 424.8,
         y: 74.5,
@@ -2438,39 +2439,43 @@ const GeneratePdf = () => {
           </label>
         </div> */}
 
-        <div className="form-control">
-          <label className="input-group input-group-vertical">
-            <span>Your best time to call</span>
-            <input
-              type="text"
-              placeholder="Range here..."
-              className="input input-bordered"
-              value={clientBestTimeTocall}
-              onChange={(e) => setClientBestTimeToCall(e.target.value)}
-            />
+        <div className="form-control w-full max-w-xs">
+          <label className="label">
+            <span className="label-text">What is your best time to call?</span>
+            <span className="label-text-alt"></span>
           </label>
+          <input
+            type="text"
+            placeholder="Time..."
+            value={clientBestTimeTocall}
+            onChange={(e) => setClientBestTimeToCall(e.target.value)}
+            className="input input-bordered w-full max-w-xs"
+            required
+          />
         </div>
 
-        <div className="form-control">
-          <label className="input-group input-group-vertical">
-            <span>HRD HEAD EMAIL AD FOR EV</span>
-            <input
-              type="text"
-              placeholder="Email here..."
-              className="input input-bordered"
-              value={clientHeadEmail}
-              onChange={(e) => setClientHeadEmail(e.target.value)}
-            />
+        <div className="form-control w-full max-w-xs">
+          <label className="label">
+            <span className="label-text">HR Email</span>
+            <span className="label-text-alt"></span>
           </label>
+          <input
+            type="email"
+            placeholder="Email..."
+            value={clientHeadEmail}
+            onChange={(e) => setClientHeadEmail(e.target.value)}
+            className="input input-bordered w-full max-w-xs"
+          />
         </div>
       </Stack>
 
       <button
         type="submit"
-        className="btn btn-neutral w-full"
+        className="btn btn-lg btn-neutral w-1/2 my-16"
         onClick={modifyPdf}
       >
         Generate PDF
+        <Image className="ml-4" src={"/inbox.svg"} width={40} height={40} />
       </button>
     </div>
   );
