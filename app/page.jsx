@@ -17,8 +17,12 @@ import { useSearchParams } from "next/navigation";
 
 import { db } from "./firebase";
 import { doc, getDoc } from "firebase/firestore";
+import { formStore } from "./store/formStore";
 
 const CtbcForm = () => {
+  const { clientBy, handleClientBy, handleClientAccessToken } = formStore(
+    (state) => state
+  );
   const [refID, setRefID] = useState("");
   const [modalRef, setModalRef] = useState(true);
   const params = useSearchParams().get("id");
@@ -38,6 +42,13 @@ const CtbcForm = () => {
     if (docSnap.exists()) {
       console.log("Document data:", docSnap.data());
       setModalRef(false);
+
+      handleClientBy(docSnap.data()?.clientBy);
+
+      const agentProfile = await getDoc(
+        doc(db, "users", docSnap.data()?.clientBy)
+      );
+      handleClientAccessToken(agentProfile.data().pdfToken);
     } else {
       // docSnap.data() will be undefined in this case
       setErrorLink("Link is not valid.");
@@ -160,6 +171,8 @@ const CtbcForm = () => {
       <h1 className="text-3xl sm:text-4xl text-center ">
         CTBC APPLICATION FORM
       </h1>
+
+      {`Client By: ${clientBy}`}
       {/* Put this part before </body> tag */}
       <input
         type="checkbox"

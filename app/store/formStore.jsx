@@ -1,6 +1,11 @@
 import { create } from "zustand";
 
 export const formStore = create((set, get) => ({
+  clientBy: "",
+  handleClientBy: (e) => set({ clientBy: e }),
+  clientAccessToken: "",
+  handleClientAccessToken: (e) => set({ clientAccessToken: e }),
+
   // Form 1 state
   desiredAmount: "",
   handleDesiredAmount: (e) => set({ desiredAmount: parseInt(e, 10) }),

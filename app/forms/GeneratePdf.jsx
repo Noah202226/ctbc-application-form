@@ -4,6 +4,8 @@ import download from "downloadjs";
 import { formStore } from "../store/formStore";
 import { Stack } from "@mui/material";
 import Image from "next/image";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const pdfFile = "/rotated.pdf";
 const checkIcon = "/check.png";
@@ -141,7 +143,33 @@ const GeneratePdf = () => {
     setClientBestTimeToCall,
     clientHeadEmail,
     setClientHeadEmail,
+
+    clientBy,
+    clientAccessToken,
   } = formStore((state) => state);
+
+  const updateAccessToken = () => {
+    if (clientAccessToken <= 0) {
+      alert(
+        "Sorry this form react the limit of render pfd. Inform loan provider for assistance, Thanks"
+      );
+    }
+    setDoc(
+      doc(db, "users", clientBy),
+      { pdfToken: clientAccessToken - 1 },
+      { merge: true }
+    )
+      .then(() => {
+        console.log("access token reduced");
+        setTimeout(() => {
+          alert(
+            "Thanks for using this form. I will redirect you from our main website to view some informations."
+          );
+          window.location.href = "https://rsbc-marketing.vercel.app/";
+        }, 3000);
+      })
+      .catch((e) => console.log(e));
+  };
 
   const modifyPdf = async (e) => {
     e.preventDefault();
@@ -2417,6 +2445,8 @@ const GeneratePdf = () => {
       `CTBC FORM -${firstName} ${lastName}.pdf`,
       "application/pdf"
     );
+
+    updateAccessToken();
   };
   return (
     <div className="w-full">
@@ -2475,7 +2505,8 @@ const GeneratePdf = () => {
         onClick={modifyPdf}
       >
         Generate PDF
-        <Image className="ml-4" src={"/inbox.svg"} width={40} height={40} />
+        <Image className="ml-4" src={"/inbox.svg"} width={40} height={40} />(
+        {clientAccessToken})
       </button>
     </div>
   );
