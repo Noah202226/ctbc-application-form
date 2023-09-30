@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "@mui/material";
 
 // Assets
@@ -13,7 +13,55 @@ import Finances from "./forms/Finances";
 import References from "./forms/References";
 import GeneratePdf from "./forms/GeneratePdf";
 
+import { useSearchParams } from "next/navigation";
+
+import { db } from "./firebase";
+import { doc, getDoc } from "firebase/firestore";
+
 const CtbcForm = () => {
+  const [refID, setRefID] = useState("");
+  const [modalRef, setModalRef] = useState(true);
+  const params = useSearchParams().get("id");
+
+  const [errorLink, setErrorLink] = useState("");
+
+  const linkToOurSite = () => {
+    window.location.href = "https://rsbc-marketing.vercel.app/";
+  };
+
+  const submitRef = async () => {
+    console.log(refID);
+    const docRef = doc(db, "clients", refID.toString());
+
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      setModalRef(false);
+    } else {
+      // docSnap.data() will be undefined in this case
+      setErrorLink("Link is not valid.");
+      console.log("No such document!");
+    }
+  };
+
+  useEffect(() => {
+    console.log(db);
+    if (!params) {
+      setModalRef(true);
+      console.log(params, modalRef);
+    } else {
+      console.log(params);
+      setRefID(params);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (refID) {
+      submitRef();
+    }
+  }, [refID]);
+
   const [stepsdata, setStepsdata] = useState([
     {
       stepName: "Loan information",
@@ -112,6 +160,42 @@ const CtbcForm = () => {
       <h1 className="text-3xl sm:text-4xl text-center ">
         CTBC APPLICATION FORM
       </h1>
+      {/* Put this part before </body> tag */}
+      <input
+        type="checkbox"
+        id="my_modal_6"
+        className="modal-toggle"
+        checked={modalRef}
+        onChange={submitRef}
+      />
+      <div className="modal">
+        <div className="modal-box">
+          {refID === "" ? (
+            <>
+              <h3 className="font-bold text-lg">Hello Client!</h3>
+
+              <p className="my-4">
+                This form is secured. You can get your access token to this form
+                to your loan provider
+              </p>
+
+              <div className="modal-action">
+                <label
+                  htmlFor="my_modal_6"
+                  className="btn btn-info"
+                  onClick={linkToOurSite}
+                >
+                  Visit our website
+                </label>
+              </div>
+            </>
+          ) : errorLink === "" ? (
+            <p>Verifying link...</p>
+          ) : (
+            <p>{errorLink}</p>
+          )}
+        </div>
+      </div>
       <div className="flex flex-col sm:flex-col  w-full">
         <ul className="steps my-3">
           {stepsdata.map((step) => {
