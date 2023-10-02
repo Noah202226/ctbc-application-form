@@ -3,8 +3,12 @@ import { create } from "zustand";
 export const formStore = create((set, get) => ({
   clientBy: "",
   handleClientBy: (e) => set({ clientBy: e }),
+  formId: "",
+  handleFormId: (e) => set({ formId: e }),
   clientAccessToken: "",
   handleClientAccessToken: (e) => set({ clientAccessToken: e }),
+  renderPdfToken: "",
+  handleRenderPdfToken: (e) => set({ renderPdfToken: e }),
 
   // Form 1 state
   desiredAmount: "",

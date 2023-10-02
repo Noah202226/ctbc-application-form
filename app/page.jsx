@@ -20,9 +20,15 @@ import { doc, getDoc } from "firebase/firestore";
 import { formStore } from "./store/formStore";
 
 const CtbcForm = () => {
-  const { clientBy, handleClientBy, handleClientAccessToken } = formStore(
-    (state) => state
-  );
+  const {
+    clientBy,
+    handleClientBy,
+    clientAccessToken,
+    handleClientAccessToken,
+    handleRenderPdfToken,
+    formId,
+    handleFormId,
+  } = formStore((state) => state);
   const [refID, setRefID] = useState("");
   const [modalRef, setModalRef] = useState(true);
   const params = useSearchParams().get("id");
@@ -48,6 +54,9 @@ const CtbcForm = () => {
       const agentProfile = await getDoc(
         doc(db, "users", docSnap.data()?.clientBy)
       );
+
+      handleRenderPdfToken(docSnap.data().renderPdfToken);
+      handleFormId(docSnap.id);
       handleClientAccessToken(agentProfile.data().pdfToken);
     } else {
       // docSnap.data() will be undefined in this case
@@ -168,11 +177,14 @@ const CtbcForm = () => {
       }}
       className="bg-slate-50 container mx-auto"
     >
-      <h1 className="text-3xl sm:text-4xl text-center ">
+      <h1 className="text-3xl sm:text-5xl text-center my-2">
         CTBC APPLICATION FORM
       </h1>
 
-      {`Client By: ${clientBy}`}
+      {/* {`Client By: ${clientBy}`}
+      <br />
+      {`Agent Remaining Token: ${clientAccessToken}`}
+      {`Form ID: ${formId}`} */}
       {/* Put this part before </body> tag */}
       <input
         type="checkbox"
@@ -210,7 +222,7 @@ const CtbcForm = () => {
         </div>
       </div>
       <div className="flex flex-col sm:flex-col  w-full">
-        <ul className="steps my-3">
+        <ul className="steps my-5">
           {stepsdata.map((step) => {
             return (
               <li

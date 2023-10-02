@@ -146,39 +146,56 @@ const GeneratePdf = () => {
 
     clientBy,
     clientAccessToken,
+    renderPdfToken,
+    formId,
   } = formStore((state) => state);
 
-  const updateAccessToken = () => {
-    if (clientAccessToken <= 0) {
+  const updateAccessToken = (e) => {
+    e.preventDefault();
+    if (clientAccessToken <= 0 || clientAccessToken === undefined) {
+      alert("Inform loan provider for assistance, Thanks");
+    } else if (renderPdfToken <= 0 || renderPdfToken === undefined) {
       alert(
-        "Sorry this form react the limit of render pfd. Inform loan provider for assistance, Thanks"
+        "Sorry this form reach it maximum render of render pfd. Inform loan provider for assistance, Thanks"
       );
+    } else {
+      if (desiredAmount === "" || desiredAmount === undefined) {
+        alert("amount is required");
+        return;
+      }
+      setDoc(
+        doc(db, "users", clientBy),
+        { pdfToken: clientAccessToken - 1 },
+        { merge: true }
+      )
+        .then(() => {
+          setDoc(
+            doc(db, "clients", formId),
+            { renderPdfToken: renderPdfToken - 1 },
+            { merge: true }
+          )
+            .then(() => {
+              console.log("access token reduced");
+              modifyPdf();
+              setTimeout(() => {
+                alert(
+                  "Thanks for using this form. I will redirect you from our main website to view some informations."
+                );
+                window.location.href = "https://rsbc-marketing.vercel.app/";
+              }, 3000);
+            })
+            .catch((e) => {
+              alert(
+                "Thanks for using this form. I will redirect you from our main website to view some informations."
+              );
+              console.log(e);
+            });
+        })
+        .catch((e) => console.log(e));
     }
-    setDoc(
-      doc(db, "users", clientBy),
-      { pdfToken: clientAccessToken - 1 },
-      { merge: true }
-    )
-      .then(() => {
-        console.log("access token reduced");
-        setTimeout(() => {
-          alert(
-            "Thanks for using this form. I will redirect you from our main website to view some informations."
-          );
-          window.location.href = "https://rsbc-marketing.vercel.app/";
-        }, 3000);
-      })
-      .catch((e) => console.log(e));
   };
 
-  const modifyPdf = async (e) => {
-    e.preventDefault();
-
-    if (desiredAmount === "" || desiredAmount === undefined) {
-      alert("amount is required");
-      return;
-    }
-
+  const modifyPdf = async () => {
     const response = await fetch(pdfFile); // Update the file path accordingly
     const pdfBytes = await response.arrayBuffer();
 
@@ -2445,8 +2462,6 @@ const GeneratePdf = () => {
       `CTBC FORM -${firstName} ${lastName}.pdf`,
       "application/pdf"
     );
-
-    updateAccessToken();
   };
   return (
     <div className="w-full">
@@ -2480,7 +2495,6 @@ const GeneratePdf = () => {
             value={clientBestTimeTocall}
             onChange={(e) => setClientBestTimeToCall(e.target.value)}
             className="input input-bordered w-full max-w-xs"
-            required
           />
         </div>
 
@@ -2502,11 +2516,17 @@ const GeneratePdf = () => {
       <button
         type="submit"
         className="btn btn-lg btn-neutral w-1/2 my-16"
-        onClick={modifyPdf}
+        onClick={updateAccessToken}
       >
         Generate PDF
-        <Image className="ml-4" src={"/inbox.svg"} width={40} height={40} />(
-        {clientAccessToken})
+        <Image
+          className="ml-4"
+          src={"/inbox.svg"}
+          width={40}
+          height={40}
+          alt="pdfDownload"
+        />
+        ({renderPdfToken})
       </button>
     </div>
   );
