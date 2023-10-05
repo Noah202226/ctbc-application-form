@@ -181,7 +181,7 @@ const GeneratePdf = () => {
                 alert(
                   "Thanks for using this form. I will redirect you from our main website to view some informations."
                 );
-                window.location.href = "https://rsbc-marketing.vercel.app/";
+                // window.location.href = "https://rsbc-marketing.vercel.app/";
               }, 3000);
             })
             .catch((e) => {
@@ -1673,16 +1673,13 @@ const GeneratePdf = () => {
         // Find the index of the second space character starting from after the first space
         const secondSpaceIndex = employerOrBusinessName.indexOf(
           " ",
-          firstSpaceIndex + 1
+          firstSpaceIndex + 10
         );
 
         if (secondSpaceIndex !== -1) {
           console.log("Index of the second space character:", secondSpaceIndex);
 
-          const firstline = employerOrBusinessName.slice(
-            0,
-            secondSpaceIndex + 10
-          );
+          const firstline = employerOrBusinessName.slice(0, secondSpaceIndex);
           const lastline = employerOrBusinessName.slice(
             secondSpaceIndex,
             employerOrBusinessName.length
@@ -1816,7 +1813,17 @@ const GeneratePdf = () => {
       firstPage.drawText(employerOrBusinessAddress, {
         x: 280,
         y: 415,
-        size: 8.5,
+        size: 12,
+        font: helveticaFont,
+        color: style.color,
+        rotate: style.rotate,
+      });
+    } else if (employerOrBusinessAddress.length < 40) {
+      console.log("Number of spaces:", spaceCount);
+      firstPage.drawText(employerOrBusinessAddress, {
+        x: 280,
+        y: 415,
+        size: 10,
         font: helveticaFont,
         color: style.color,
         rotate: style.rotate,
@@ -1852,7 +1859,7 @@ const GeneratePdf = () => {
       firstPage.drawText(firstline.toUpperCase(), {
         x: 280,
         y: 408,
-        size: 8.5,
+        size: 8,
         font: helveticaFont,
         color: style.color,
         rotate: style.rotate,
@@ -1860,7 +1867,7 @@ const GeneratePdf = () => {
       firstPage.drawText(secondline.toUpperCase(), {
         x: 290,
         y: 406,
-        size: 8.5,
+        size: 8,
         font: helveticaFont,
         color: style.color,
         rotate: style.rotate,
@@ -1868,7 +1875,7 @@ const GeneratePdf = () => {
       firstPage.drawText(lastline.toUpperCase(), {
         x: 300,
         y: 406,
-        size: 8.5,
+        size: 8,
         font: helveticaFont,
         color: style.color,
         rotate: style.rotate,
