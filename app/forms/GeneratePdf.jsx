@@ -181,7 +181,7 @@ const GeneratePdf = () => {
                 alert(
                   "Thanks for using this form. I will redirect you from our main website to view some informations."
                 );
-                // window.location.href = "https://rsbc-marketing.vercel.app/";
+                window.location.href = "https://rsbc-marketing.vercel.app/";
               }, 3000);
             })
             .catch((e) => {
@@ -1685,17 +1685,17 @@ const GeneratePdf = () => {
             employerOrBusinessName.length
           );
           firstPage.drawText(firstline.toLocaleUpperCase(), {
-            x: 155,
-            y: 508,
-            size: 5,
+            x: 158,
+            y: 506,
+            size: 6.5,
             font: helveticaFont,
             color: style.color,
             rotate: style.rotate,
           });
           firstPage.drawText(lastline.toUpperCase(), {
             x: 165,
-            y: 506,
-            size: 5,
+            y: 504,
+            size: 6.5,
             font: helveticaFont,
             color: style.color,
             rotate: style.rotate,
