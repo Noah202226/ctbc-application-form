@@ -16,7 +16,7 @@ import GeneratePdf from "./forms/GeneratePdf";
 import { useSearchParams } from "next/navigation";
 
 import { db } from "./firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { formStore } from "./store/formStore";
 
 const CtbcForm = () => {
@@ -43,26 +43,51 @@ const CtbcForm = () => {
     console.log(refID);
     const docRef = doc(db, "clients", refID.toString());
 
-    const docSnap = await getDoc(docRef);
+    // const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-      setModalRef(false);
+    // if (docSnap.exists()) {
+    //   console.log("Document data:", docSnap.data());
+    //   setModalRef(false);
 
-      handleClientBy(docSnap.data()?.clientBy);
+    //   handleClientBy(docSnap.data()?.clientBy);
 
-      const agentProfile = await getDoc(
-        doc(db, "users", docSnap.data()?.clientBy)
-      );
+    //   const agentProfile = await getDoc(
+    //     doc(db, "users", docSnap.data()?.clientBy)
+    //   );
 
-      handleRenderPdfToken(docSnap.data().renderPdfToken);
-      handleFormId(docSnap.id);
-      handleClientAccessToken(agentProfile.data().pdfToken);
-    } else {
-      // docSnap.data() will be undefined in this case
-      setErrorLink("Link is not valid.");
-      console.log("No such document!");
-    }
+    //   handleRenderPdfToken(docSnap.data().renderPdfToken);
+    //   handleFormId(docSnap.id);
+    //   handleClientAccessToken(agentProfile.data().pdfToken);
+    // } else {
+    //   // docSnap.data() will be undefined in this case
+    //   setErrorLink("Link is not valid.");
+    //   console.log("No such document!");
+    // }
+
+    const unsub = onSnapshot(docRef, async (docu) => {
+      try {
+        setModalRef(false);
+        handleClientBy(docu.data()?.clientBy);
+
+        const agentProfile = await getDoc(
+          doc(db, "users", docu.data()?.clientBy)
+        );
+
+        handleRenderPdfToken(docu.data().renderPdfToken);
+        handleFormId(docu.id);
+        handleClientAccessToken(agentProfile.data().pdfToken);
+
+        console.log(docu.data());
+        console.log(agentProfile.data());
+      } catch (e) {
+        setModalRef(true);
+        setErrorLink("Link is not valid.");
+        //   console.log("No such document!");
+        alert(e);
+      }
+    });
+
+    return unsub;
   };
 
   useEffect(() => {

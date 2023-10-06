@@ -6,9 +6,12 @@ import { Stack } from "@mui/material";
 import Image from "next/image";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import { useState } from "react";
 
 const pdfFile = "/rotated.pdf";
 const checkIcon = "/check.png";
+
+const consentPDF = "/consent.pdf";
 
 const GeneratePdf = () => {
   //   Writing Configuration
@@ -150,6 +153,10 @@ const GeneratePdf = () => {
     formId,
   } = formStore((state) => state);
 
+  const [generateButton, setGenerateButton] = useState("Generate PDF");
+  const [signature, setSignature] = useState("");
+  const [signatureBuffer, setSignatureBuffer] = useState();
+
   const updateAccessToken = (e) => {
     e.preventDefault();
     if (clientAccessToken <= 0 || clientAccessToken === undefined) {
@@ -163,6 +170,12 @@ const GeneratePdf = () => {
         alert("amount is required");
         return;
       }
+      if (signature === "" || signature === undefined) {
+        alert("Signature is" + signature);
+        return;
+      }
+      setGenerateButton("Generating ...");
+
       setDoc(
         doc(db, "users", clientBy),
         { pdfToken: clientAccessToken - 1 },
@@ -178,16 +191,12 @@ const GeneratePdf = () => {
               console.log("access token reduced");
               modifyPdf();
               setTimeout(() => {
-                alert(
-                  "Thanks for using this form. I will redirect you from our main website to view some informations."
-                );
-                window.location.href = "https://rsbc-marketing.vercel.app/";
+                alert("Thanks for using this form.");
+                // window.location.href = "https://rsbc-marketing.vercel.app/";
               }, 3000);
             })
             .catch((e) => {
-              alert(
-                "Thanks for using this form. I will redirect you from our main website to view some informations."
-              );
+              alert(`Error: ${e}`);
               console.log(e);
             });
         })
@@ -196,14 +205,24 @@ const GeneratePdf = () => {
   };
 
   const modifyPdf = async () => {
+    const responseToConsent = await fetch(consentPDF);
+    const pdfBytesToConsent = await responseToConsent.arrayBuffer();
+
     const response = await fetch(pdfFile); // Update the file path accordingly
     const pdfBytes = await response.arrayBuffer();
 
     const imageResponce = await fetch(checkIcon);
     const checkImageBytes = await imageResponce.arrayBuffer();
 
+    // Form
     const pdfDoc = await PDFDocument.load(pdfBytes, { updateMetadata: false });
     const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    // Consent
+    const pdfDocConsent = await PDFDocument.load(pdfBytesToConsent, {
+      updateMetadata: false,
+    });
+    const pdfDocConsentPages = pdfDocConsent.getPages();
+    const secondPage = pdfDocConsentPages[0];
 
     const pages = pdfDoc.getPages();
     const firstPage = pages[0];
@@ -211,6 +230,28 @@ const GeneratePdf = () => {
 
     // Embed image
     const checkImage = await pdfDoc.embedPng(checkImageBytes);
+
+    const image = await pdfDocConsent.embedPng(signatureBuffer);
+
+    // Writing in Consent
+    secondPage.drawImage(image, {
+      x: 390,
+      y: 110,
+      height: 100,
+      width: 100,
+      color: style.color,
+      // rotate: style.rotate,
+      opacity: 0.9,
+    });
+
+    secondPage.drawText(new Date().toLocaleDateString(), {
+      x: 400,
+      y: 110,
+      size: 16,
+      font: helveticaFont,
+      color: style.color,
+      // rotate: style.rotate,
+    });
 
     // Amount
     firstPage.drawText(desiredAmount.toLocaleString(), {
@@ -2432,7 +2473,7 @@ const GeneratePdf = () => {
     });
 
     // Client Contact
-    firstPage.drawText(`CLIENT MOBILE NUMBER: ${permanentResidenseMobile}`, {
+    firstPage.drawText(`CLIENT MOBILE NUMBER: ${residenseMobile}`, {
       x: 25,
       y: 220,
       size: 18,
@@ -2462,6 +2503,7 @@ const GeneratePdf = () => {
 
     // Save modifications
     const updatedPdfBytes = await pdfDoc.save();
+    const updateConsentBytes = await pdfDocConsent.save();
 
     // Download Updated PDF
     download(
@@ -2469,6 +2511,12 @@ const GeneratePdf = () => {
       `CTBC FORM -${firstName} ${lastName}.pdf`,
       "application/pdf"
     );
+    download(
+      updateConsentBytes,
+      `CTBC Consent form -${firstName} ${lastName}.pdf`,
+      "application/pdf"
+    );
+    setGenerateButton("Generate PDF");
   };
   return (
     <div className="w-full">
@@ -2520,12 +2568,56 @@ const GeneratePdf = () => {
         </div>
       </Stack>
 
+      <Stack
+        flexDirection={{ xs: "column", md: "row" }}
+        my={5}
+        width={"100%"}
+        justifyContent={"space-around"}
+      >
+        {/* <div className="form-control">
+          <label className="input-group input-group-vertical">
+            <span>Client Mobile No.</span>
+            <input
+              type="number"
+              placeholder="Mobile no...."
+              className="input input-bordered"
+              value={clientMobileNo}
+              onChange={(e) => setClientMobileNo(e.target.value)}
+            />
+          </label>
+        </div> */}
+
+        <div className="form-control w-full max-w-xs mt-8">
+          <label className="label">
+            <span className="label-text">Select Signature</span>
+            <span className="label-text-alt">(*.png)</span>
+          </label>
+          <input
+            id="signature"
+            type="file"
+            title="Select Signature"
+            className="file-input file-input-bordered file-input-primary w-full max-w-xs"
+            value={signature}
+            onChange={(e) => {
+              setSignature(e.target.value);
+
+              e.target.files
+                .item(0)
+                .arrayBuffer()
+                .then((res) => {
+                  setSignatureBuffer(res);
+                });
+            }}
+          />
+        </div>
+      </Stack>
+
       <button
         type="submit"
-        className="btn btn-lg btn-neutral w-1/2 my-16"
+        className="btn btn-lg btn-neutral w-1/2 my-8"
         onClick={updateAccessToken}
       >
-        Generate PDF
+        {generateButton}
         <Image
           className="ml-4"
           src={"/inbox.svg"}
