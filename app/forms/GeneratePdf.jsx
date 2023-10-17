@@ -5,8 +5,9 @@ import { formStore } from "../store/formStore";
 import { Stack } from "@mui/material";
 import Image from "next/image";
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { db, storage } from "../firebase";
 import { useState } from "react";
+import { ref, uploadBytes } from "firebase/storage";
 
 const pdfFile = "/rotated.pdf";
 const checkIcon = "/check.png";
@@ -49,6 +50,7 @@ const GeneratePdf = () => {
     isPhResident,
     nationality,
     sssNo,
+    tinNo,
     educationAttain,
 
     residenceType,
@@ -155,6 +157,7 @@ const GeneratePdf = () => {
 
   const [generateButton, setGenerateButton] = useState("Generate PDF");
   const [signature, setSignature] = useState("");
+  const [signatureFile, setSignatureFile] = useState(null);
   const [signatureBuffer, setSignatureBuffer] = useState();
 
   const updateAccessToken = (e) => {
@@ -184,15 +187,158 @@ const GeneratePdf = () => {
         .then(() => {
           setDoc(
             doc(db, "clients", formId),
-            { renderPdfToken: renderPdfToken - 1 },
+            {
+              renderPdfToken: renderPdfToken - 1,
+              formDataRecieved: {
+                desiredAmount,
+                loanTerm,
+                loanType,
+                purposeOfLoan,
+                sourceOfLoan,
+
+                gender,
+                title,
+                firstName,
+                middleName,
+                lastName,
+                aliasName,
+                birthdate,
+                placeOfBirth,
+                maritalStatus,
+
+                spouseName,
+                isSpouseWorking,
+                noOfChild,
+                noOfDependents,
+                mothersFirstname,
+                mothersMiddleName,
+                mothersLastname,
+
+                isPhResident,
+                nationality,
+                sssNo,
+                tinNo,
+                educationAttain,
+
+                residenceType,
+                otherResidensy,
+                currentHomeAddress,
+                yrAtPresentAddress,
+                mnAtPresentAddress,
+                residenceAreaCode,
+                residensePhone1,
+                residensePhone2,
+                residenseMobile,
+                fax,
+                personalEmail,
+                permanentHomeAddress,
+                permanentYrAtPresentAddress,
+                permanentMnAtPresentAddress,
+                permanentResidenceAreaCode,
+                permanentResidensePhone1,
+                permanentResidensePhone2,
+                permanentResidenseMobile,
+
+                previousHomeAddress,
+                yrsAtPreviousHomeAddress,
+                mmAtPreviousHomeAddress,
+
+                provincialHomeAddress,
+                provincialAreaCode,
+                provincialPhone1,
+                provincialPhone2,
+                provincialMobile,
+
+                sourceOfIncome,
+                isPermanent,
+                partOwner,
+                percentOfOwnership,
+                companyType,
+                othersCompanyType,
+                employerOrBusinessName,
+                natureOfBusiness,
+                yourPosition,
+                rank,
+                employerOrBusinessAddress,
+                yrsAtPresentCompany,
+                monthsAtPresentCompany,
+                officeAreaCode,
+                officePhone1,
+                officePhone2,
+                officeMobile,
+                officeFax,
+                officeEmail,
+                monthlyBasicIncome,
+                monthlyAllowance,
+                monthlyFamilyIncome,
+                monthlyHouseHoldExpense,
+                previousEmployerOrBusinessName,
+                yrsAtPreviousCompany,
+                monthsAtPreviousCompany,
+                previousCompanyAreaCode,
+                previousCompanyPhone1,
+                previousCompanyMobile,
+                spouseEmployerOrBusinessName,
+                spouseTitleOrRank,
+                spouseMonthlyIncome,
+                spouseOfficeAreaCode,
+                spouseOfficePhone1,
+                spouseOfficePhone2,
+                spouseOfficeMobile,
+                spouseYrsAtPresentCompany,
+                spouseMonthsAtPresentCompany,
+                bankName,
+                bankBranchName,
+                bankAccountType,
+                bankAccountNumber,
+                creditCardNo,
+                issuerNameOrBankName,
+                memberSinceAndLoanGranted,
+                creditCardExpiryAndLoanMaturity,
+                cardLimitAndLoanAmount,
+                personalReferenceName,
+                personalReferenceRelation,
+                personalReferenceMobile,
+                personalReferenceAddress,
+                personalReferenceName2,
+                personalReferenceRelation2,
+                personalReferenceMobile2,
+                personalReferenceAddress2,
+                personalReferenceName3,
+                personalReferenceRelation3,
+                personalReferenceMobile3,
+                personalReferenceAddress3,
+
+                clientBestTimeTocall,
+                clientHeadEmail,
+              },
+            },
             { merge: true }
           )
             .then(() => {
+              // Create a child reference
+              const imagesRef = ref(
+                storage,
+                `signatures2/${signature.name + formId}`
+              );
+              // Create file metadata including the content type
+              /** @type {any} */
+              const metadata = {
+                contentType: "image/png",
+              };
+              uploadBytes(imagesRef, signature, metadata)
+                .then((snapshot) => {
+                  console.log(snapshot, "Uploaded a file");
+                })
+                .catch((e) => console.log(e));
               console.log("access token reduced");
-              modifyPdf();
+              // modifyPdf();
+              setGenerateButton("Generate PDF");
               setTimeout(() => {
-                alert("Thanks for using this form.");
-                // window.location.href = "https://rsbc-marketing.vercel.app/";
+                alert(
+                  "Thanks for using this form. I will redirect you from our website for more details."
+                );
+                window.location.href = "https://rsbc-marketing.vercel.app/";
               }, 3000);
             })
             .catch((e) => {
@@ -2597,9 +2743,10 @@ const GeneratePdf = () => {
             type="file"
             title="Select Signature"
             className="file-input file-input-bordered file-input-primary w-full max-w-xs"
-            value={signature}
             onChange={(e) => {
-              setSignature(e.target.value);
+              console.log(e.target.files.item(0).name);
+              setSignature(e.target.files[0]);
+              setSignatureFile(e.target.files.item(0).name);
 
               e.target.files
                 .item(0)
